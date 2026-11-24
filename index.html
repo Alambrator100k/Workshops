@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الموسوعة التفاعلية الشاملة لهندسة الإنتاج وعمليات التصنيع</title>
+    <style>
+        :root {
+            --primary: #1e3d59;
+            --primary-dark: #0f2537;
+            --secondary: #17b978;
+            --bg-color: #f0f4f8;
+            --text-color: #2c3e50;
+            --card-bg: #ffffff;
+            --accent: #ff6e40;
+            --warning-bg: #fff8e7;
+            --warning-border: #f5b041;
+            --info-bg: #ebf5fb;
+            --info-border: #3498db;
+            --correct-bg: #d4edda;
+            --correct-border: #28a745;
+            --wrong-bg: #f8d7da;
+            --wrong-border: #dc3545;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 2.3rem;
+            margin-bottom: 0.6rem;
+        }
+
+        header p {
+            font-size: 1.15rem;
+            color: #d1d8e0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: var(--primary-dark);
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.08);
+        }
+
+        nav a:hover {
+            background-color: var(--secondary);
+            color: #fff;
+        }
+
+        nav a.exam-link {
+            background-color: var(--accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            margin-bottom: 2.5rem;
+            padding: 2.2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+            border-right: 6px solid var(--primary);
+        }
+
+        section h2 {
+            color: var(--primary);
+            border-bottom: 2px solid #e1e8ed;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        section h3 {
+            color: var(--primary-dark);
+            margin: 1.5rem 0 0.8rem;
+            font-size: 1.3rem;
+            border-right: 4px solid var(--secondary);
+            padding-right: 10px;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        ul, ol {
+            margin: 0.8rem 1.8rem 1.2rem 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .note-box {
+            background-color: var(--warning-bg);
+            border-right: 5px solid var(--warning-border);
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            margin: 1.2rem 0;
+        }
+
+        .note-box strong {
+            color: #b9770e;
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 1.1rem;
+        }
+
+        .formula-box {
+            background-color: var(--info-bg);
+            border-right: 5px solid var(--info-border);
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            margin: 1.2rem 0;
+        }
+
+        .math-eq {
+            direction: ltr;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.25rem;
+            font-weight: bold;
+            background: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border: 1px solid #d6eaf8;
+            color: var(--primary-dark);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.2rem 0;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.4rem;
+            border-top: 4px solid var(--primary);
+        }
+
+        .info-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.6rem;
+            font-size: 1.15rem;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            border: 1px solid #e1e8ed;
+            padding: 13px 15px;
+            text-align: right;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-size: 1.05rem;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .qa-box {
+            background: #fafbfc;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 1.3rem 1.5rem;
+            margin-bottom: 1.2rem;
+            border-right: 4px solid var(--secondary);
+        }
+
+        .qa-box h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.15rem;
+        }
+
+        .qa-box p {
+            color: #34495e;
+            margin-bottom: 0;
+        }
+
+        /* تنسيقات الاختبار التفاعلي */
+        .exam-section {
+            border-right-color: var(--accent);
+        }
+
+        .exam-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quiz-card {
+            background: #ffffff;
+            border: 1px solid #dce4ec;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            transition: border-color 0.3s;
+        }
+
+        .quiz-card.correct-card {
+            border: 2px solid var(--correct-border);
+            background-color: #f4fbf6;
+        }
+
+        .quiz-card.wrong-card {
+            border: 2px solid var(--wrong-border);
+            background-color: #fdf5f6;
+        }
+
+        .q-title {
+            font-weight: bold;
+            font-size: 1.12rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .q-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-left: 8px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border: 1px solid #d5dbdb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            background: #f9fbfc;
+        }
+
+        .option-label:hover {
+            background: #ebf5fb;
+            border-color: var(--primary);
+        }
+
+        .option-label input[type="radio"] {
+            transform: scale(1.2);
+            accent-color: var(--primary);
+        }
+
+        /* أسئلة الترتيب */
+        .order-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 10px 14px;
+            border-radius: 8px;
+            gap: 10px;
+        }
+
+        .order-controls {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .order-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .order-btn:hover {
+            background: var(--secondary);
+        }
+
+        .feedback-msg {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.98rem;
+            display: none;
+        }
+
+        .feedback-msg.show-correct {
+            display: block;
+            background: var(--correct-bg);
+            color: #155724;
+            border-right: 4px solid var(--correct-border);
+        }
+
+        .feedback-msg.show-wrong {
+            display: block;
+            background: var(--wrong-bg);
+            color: #721c24;
+            border-right: 4px solid var(--wrong-border);
+        }
+
+        .action-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e1e8ed;
+        }
+
+        .btn-submit {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(23, 185, 120, 0.3);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #139a63;
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-reset:hover {
+            background: #5a6268;
+        }
+
+        #score-board {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.8rem;
+            border-radius: 10px;
+            text-align: center;
+            background: linear-gradient(135deg, #1e3d59, #2b5876);
+            color: white;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        #score-board h3 {
+            color: #fff;
+            border: none;
+            margin: 0 0 10px 0;
+            font-size: 1.6rem;
+        }
+
+        footer {
+            background-color: #111;
+            color: #aaa;
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.95rem;
+            margin-top: 3rem;
+        }
+
+        @media(max-width: 768px) {
+            header h1 { font-size: 1.75rem; }
+            section { padding: 1.4rem; }
+            .math-eq { font-size: 1.05rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>الموسوعة التفاعلية لهندسة الإنتاج وعمليات التصنيع</h1>
+        <p>شرح شامل ومفصل للسباكة الرملية والطرد المركزي، البثق، والدرفلة + بنك أسئلة واختبار تفاعلي بالتصحيح الفوري</p>
+    </header>
+
+    <nav>
+        <a href="#mold-diagram">1. أجزاء القالب الرملي</a>
+        <a href="#casting-details">2. السباكة والنماذج</a>
+        <a href="#extrusion-details">3. عملية البثق</a>
+        <a href="#rolling-details">4. درفلة المعادن والقوانين</a>
+        <a href="#qa-bank">5. بنك الأسئلة والأجوبة</a>
+        <a href="#interactive-exam" class="exam-link">6. الاختبار التفاعلي الشامل</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- القسم الأول: بيانات الأجزاء المرقمة للقالب الرملي (مُصحح ومُدقق) -->
+        <section id="mold-diagram">
+            <h2>1. بيانات الأجزاء المرقمة للقالب الرملي (Sand Mold Parts)</h2>
+            <p>بناءً على الرسم الهندسي المعتمد للقالب الرملي، تم تدقيق وتصحيح جميع الأرقام لتطابق مواضعها الدقيقة على الرسم:</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الرقم على الرسم</th>
+                            <th>اسم الجزء (عربي)</th>
+                            <th>المصطلح (إنجليزي)</th>
+                            <th>الوظيفة الهندسية التفصيلية</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td>صندوق السباكة</td>
+                            <td>Flask</td>
+                            <td>الإطار المعدني أو الخشبي الحاضن لرمل التشكيل، ويتكون من نصفين (علوي وسفلي).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td>تجويف القالب</td>
+                            <td>Mold Cavity</td>
+                            <td>الفراغ الداخلي المتروك بعد سحب النموذج، والذي يملؤه المعدن المنصهر لتكوين شكل المنتج.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4</strong></td>
+                            <td>لوح القاعدة</td>
+                            <td>Bottom Board</td>
+                            <td>اللوح السفلي المستوي الذي يرتكز عليه صندوق السباكة بالكامل لحمل الرمل والمعدن.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5</strong></td>
+                            <td>النصف السفلي للقالب الرملي</td>
+                            <td>Drag</td>
+                            <td>الجزء السفلي من القالب الرملي الملامس للوح القاعدة.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6</strong></td>
+                            <td>الدليك (القلب الرملي)</td>
+                            <td>Core</td>
+                            <td>كتلة رملية متماسكة توضع داخل القالب لتكوين التجاويف والثقوب الداخلية للمسبوكات المجوفة.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>7</strong></td>
+                            <td>خط الانفصال (ومشابك التثبيت)</td>
+                            <td>Parting Line (Clamps)</td>
+                            <td>المستوى الفاصل بين نصفي القالب العلوي والسفلي، وتوجد عنده بنوز ومشابك المحاذاة.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>8</strong></td>
+                            <td>النصف العلوي للقالب الرملي</td>
+                            <td>Cope</td>
+                            <td>الجزء العلوي من القالب الرملي الذي يحتوي على فتحات الصب والمغذيات.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>9</strong></td>
+                            <td>المغذي (المصعد)</td>
+                            <td>Riser</td>
+                            <td>خزان للمعدن المنصهر يعوض انكماش المعدن أثناء التجمد ويسمح بخروج الغازات والأوساخ.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>11</strong></td>
+                            <td>مصب المعدن (المجرى النازل)</td>
+                            <td>Sprue (Downsprue)</td>
+                            <td>القناة الرأسية التي يُصب فيها المعدن المنصهر من الخارج ليصل إلى مجاري التغذية ثم التجويف.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- القسم الثاني: السباكة والنماذج والطرد المركزي -->
+        <section id="casting-details">
+            <h2>2. الشرح التفصيلي لسباكة المعادن (Casting of Metals)</h2>
+            
+            <h3>أ. مفهوم السباكة ومدى استخدامها</h3>
+            <p><strong>السباكة (Casting):</strong> هي عملية تشكيل للمعادن في <strong>خطوة واحدة</strong> عن طريق صهر المعدن وصبه في قالب به فجوة (Cavity) تطابق أبعاد المنتج المطلوب. تتراوح أوزان المسبوكات من <strong>بضعة جرامات</strong> (مثل أسنان سوستة الملابس) إلى <strong>عدة أطنان</strong> (مثل ريش التربينات الكبيرة وأجسام الماكينات).</p>
+
+            <h3>ب. النماذج (Patterns / الأورنيك) وخاماتها وصفاتها</h3>
+            <p>يُسمى النموذج أيضاً <strong>بالأورنيك</strong>، ويُصنع مطابقاً للشكل الخارجي للمنتج لكنه <strong>مُصمت (غير مجوف)</strong>. وتُختار خامته حسب عدد القطع المطلوب إنتاجها:</p>
+            <div class="grid-2">
+                <div class="info-card">
+                    <h4>خامات النماذج حسب حجم الإنتاج</h4>
+                    <ul>
+                        <li><strong>خشب الصنوبر الأبيض:</strong> يُستخدم عندما لا يزيد العدد المطلوب سباكته عن <strong>30 قطعة</strong>.</li>
+                        <li><strong>الأخشاب الصلدة (الماهوجني، البلوط، الزان):</strong> تُستخدم عند تجهيز نحو <strong>100 قالب تقريباً</strong>.</li>
+                        <li><strong>النماذج المعدنية (الألومنيوم غالباً):</strong> تُستخدم في حالة <strong>الإنتاج الكمي (بالجملة)</strong> لتحملها وعدم تآكلها.</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h4>الصفات الست الواجب توافرها في النموذج</h4>
+                    <ol>
+                        <li><strong>سماح الانكماش:</strong> زيادة طفيفة في الأبعاد لتعويض تقلص المعدن عند التبريد.</li>
+                        <li><strong>سماح التشغيل:</strong> زيادة للأسطح التي ستُشطب بالقطع الميكانيكي لاحقاً.</li>
+                        <li><strong>السلبية (Draft):</strong> ميل طفيف في الجدران الرأسية لتسهيل سحب النموذج دون تهشيم الرمل.</li>
+                        <li><strong>ركائز الدليك (Core Prints):</strong> زوائد على النموذج تترك تجاويف لتثبيت طرفي الدليك ومنعه من الحركة.</li>
+                        <li><strong>تدوير الأركان:</strong> لمنع تركيز الإجهادات وتحسين سريان المعدن.</li>
+                        <li><strong>سطح الانفصال:</strong> تحديد مستوى فصل النموذج لتسهيل إخراجه.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3>ج. مقارنة بين قوالب الرمل الأخضر وقوالب الرمل الجاف</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>وجه المقارنة</th>
+                            <th>قوالب الرمل الأخضر (Green-Sand)</th>
+                            <th>قوالب الرمل الجاف (Dry-Sand)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>المكونات والتحضير</strong></td>
+                            <td><strong>90% رمل</strong> + <strong>8% طمي (Clay)</strong> + <strong>2% ماء</strong> (يُستخدم رطباً دون تجفيف).</td>
+                            <td>رمل نظيف + <strong>زيت أو مولاس</strong> كمادة رابطة + قليل من الماء، ويُجفف لمدة <strong>ساعتين</strong> عند حرارة <strong>180 – 220°م</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>الخصائص</strong></td>
+                            <td>اقتصادي ويُعاد تجهيزه بالطحن والنخل وإضافة <strong>30% رمل جديد</strong> وطمي وماء.</td>
+                            <td>تماسك عالٍ جداً أثناء الصب و<strong>عدم تكون غازات</strong> لخلوه تماماً من الرطوبة.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>الاستخدام الشائع</strong></td>
+                            <td>شائع الاستخدام في <strong>مسابك الحديد الزهر</strong>.</td>
+                            <td>يُستخدم بصفة أساسية في <strong>مسابك الصلب</strong>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>د. السباكة بالطرد المركزي (Centrifugal Casting)</h3>
+            <p>تعتمد على دوران القالب بسرعة عالية لتوزيع المعدن المنصهر نحو الجدران بقوة الطرد المركزي، مما ينتج مسبوكات <strong>خالية من العيوب والشوائب والفقاعات</strong> (لأن الشوائب الأخف تتجمع في المركز)، ولكن يعيبها محدودية الشكل والحجم.</p>
+            <ul>
+                <li><strong>سباكة بقالب محور دورانه رأسي:</strong> تُستخدم لإنتاج الأجزاء القصيرة ذات الأقطار الكبيرة مثل <strong>التروس (المسننات)</strong>.</li>
+                <li><strong>سباكة بقالب محور دورانه أفقي:</strong> تُستخدم لإنتاج <strong>الأنابيب والمواسير</strong> الطويلة مجوفةً بالكامل <strong>دون استخدام دليك (Core)</strong>.</li>
+            </ul>
+
+            <div class="note-box">
+                <strong>ملاحظة هندسية هامة في مسائل السباكة (مثل مسألة الماسورة المخروطية):</strong>
+                عند حساب طول الدليك (Core)، يجب إضافة طول <strong>ركائز الدليك (Core Prints)</strong> من الجهتين إلى الطول الداخلي للمنتج (مثال: إذا كان ارتفاع التجويف $50\text{ cm}$ ولكل ركيزة $5\text{ cm}$ في الأعلى والأسفل، يصبح الطول الكلي للدليك $60\text{ cm}$) لكي يرتكز بثبات داخل الرمل ولا يطفو أثناء صب المعدن المنصهر.
+            </div>
+        </section>
+
+        <!-- القسم الثالث: عملية البثق -->
+        <section id="extrusion-details">
+            <h2>3. عملية البثق (Extrusion Process)</h2>
+            <p><strong>التعريف:</strong> عملية تشكيل لدن تُدفع فيها كتلة معدنية (Billet) داخل حاوية (Container) بواسطة كباس (Ram) لتمر عبر فتحة اسطمبة (Die) فتأخذ شكل مقطعها. تُستخدم لإنتاج أجزاء طويلة ذات <strong>مقاطع عرضية منتظمة وثابتة</strong> (مثل قطاعات الألومنيوم، القضبان، والمواسير).</p>
+            <p>تُبثق معظم المعادن <strong>على الساخن (Hot Extrusion)</strong> لتقليل مقاومة المعدن وخفض القوى الكبيرة المطلوبة للتشكيل.</p>
+
+            <h3>أ. مقارنة بين البثق المباشر والبثق غير المباشر</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>وجه المقارنة</th>
+                            <th>البثق المباشر (Direct Extrusion)</th>
+                            <th>البثق غير المباشر (Indirect Extrusion)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>اتجاه حركة المعدن</strong></td>
+                            <td>يتحرك المعدن المنبثق في <strong>نفس اتجاه</strong> حركة الكباس (Ram).</td>
+                            <td>يتحرك المعدن المنبثق في <strong>عكس اتجاه</strong> حركة الكباس.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>موقع الاسطمبة (Die)</strong></td>
+                            <td>مثبتة في نهاية الحاوية (Container).</td>
+                            <td>مثبتة في مقدمة الكباس المجوف نفسه.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>الاحتكاك والقوة</strong></td>
+                            <td><strong>عالية جداً</strong> بسبب احتكاك كتلة المعدن (Billet) بجدران الحاوية.</td>
+                            <td><strong>أقل بكثير</strong> لعدم وجود حركة نسبية بين الكتلة وجدران الحاوية (نهايتها مغلقة بلوح غلق).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>تصميم المعدات</strong></td>
+                            <td>أبسط وأكثر شيوعاً.</td>
+                            <td>أكثر تعقيداً لأن الكباس يجب أن يكون مجوفاً ليمر المنتج من داخله.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>ب. البثق بالصدم (Impact Extrusion)</h3>
+            <p>تُوضع قطعة معدنية صغيرة (قرص) من معدن طري (مثل الألومنيوم أو الرصاص) في اسطمبة، ثم ينزل <strong>المكبس (Punch)</strong> بسرعة عالية جداً وصدمة قوية، فيتدفق المعدن <strong>إلى الأعلى</strong> في الفراغ الحلقي المحيط بالمكبس (عكس اتجاه الكبس) مكوناً جدراناً رقيقة. تُجرى <strong>على البارد</strong> لإنتاج أنابيب معجون الأسنان وعلب المشروبات الغازية.</p>
+        </section>
+
+        <!-- القسم الرابع: درفلة المعادن والقوانين -->
+        <section id="rolling-details">
+            <h2>4. درفلة المعادن (Rolling of Metals)</h2>
+            <p><strong>التعريف:</strong> عملية تشكيل لدن يتم فيها <strong>تقليل سمك المشغولة</strong> عبر ضغطها بقوى انضغاط بين <strong>درفيلين (Rollers)</strong> يدوران في اتجاهين متعاكسين. يؤدي الاحتكاك بين الدرافيل والمعدن إلى سحبه واستمرار مروره، فينخفض سمكه ويزداد طوله.</p>
+            <p>تُستخدم <strong>الدرفلة على البارد</strong> غالباً في <strong>المراحل النهائية</strong> للحصول على <strong>جودة سطح عالية</strong> و<strong>دقة في المقاسات</strong>.</p>
+
+            <h3>أ. المنتجات الأولية والمنتجات النهائية للدرفلة</h3>
+            <ul>
+                <li><strong>البلاطات (Slabs):</strong> ذات مقطع مستطيل عريض، وتُدرفل لإنتاج الألواح والصفائح (Plates & Sheets) واللفائف (Coils).</li>
+                <li><strong>الكتل / البلوم (Blooms):</strong> ذات مقطع مربع كبير، وتُدرفل لإنتاج القطاعات الإنشائية (Structural shapes مثل حرف I و T) وقضبان السكك الحديدية (Rails).</li>
+                <li><strong>العروق / البيلت (Billets):</strong> ذات مقطع مربع أصغر، وتُدرفل لإنتاج القضبان والأسياخ (Bars & Rods) والأسلاك (Wire Rods).</li>
+            </ul>
+
+            <h3>ب. أنواع ماكينات الدرفلة (Rolling Mills)</h3>
+            <ol>
+                <li><strong>آلة درفلة ثنائية غير عكوسة (Two-High Non-Reversing):</strong> درفيلان يدوران في اتجاه واحد ثابت.</li>
+                <li><strong>آلة درفلة ثنائية عكوسة (Two-High Reversing):</strong> درفيلان يمكن عكس دورانهما لتمرير المعدن ذهاباً وإياباً.</li>
+                <li><strong>آلة درفلة ثلاثية الدرافيل (Three-High Mill):</strong> ثلاثة درافيل رأسية تسمح بتغذية المعدن من الجهتين في مرحلتين متتاليتين دون عكس دوران الدرافيل.</li>
+                <li><strong>آلة درفلة رباعية الدرافيل (Four-High Mill):</strong> درفيلان صغيران للتشغيل (Work rolls) ودرفيلان كبيران للإسناد (Backing rolls) لمنع انحناء درافيل التشغيل.</li>
+                <li><strong>آلة درفلة عنقودية (Cluster Mill):</strong> درفيلان صغيران جداً للتشغيل يُسند كل منهما بمجموعة من درافيل الإسناد، وتُستخدم في <strong>الدرفلة على البارد</strong> نظراً لكبر قوة الدرفلة المطلوبة.</li>
+            </ol>
+
+            <h3>ج. قوانين حسابات الدرفلة وأمثلة محلولة</h3>
+            <div class="formula-box">
+                <p><strong>1. قانون حفظ الحجم / التدفق (مع ثبات العرض):</strong></p>
+                <div class="math-eq">V₁ × H₁ = V₂ × H₂</div>
+                <p><strong>2. مقدار النقص في السمك (Reduction in Thickness):</strong></p>
+                <div class="math-eq">ΔH = H₁ - H₂ = D × (1 - cos α)</div>
+                <p><strong>3. النسبة المئوية للتخفيض في السمك:</strong></p>
+                <div class="math-eq">% Reduction = [(H₁ - H₂) / H₁] × 100</div>
+                <p style="font-size: 0.95rem; margin-top: 8px;">حيث: <strong>H₁</strong> السمك الابتدائي، <strong>H₂</strong> السمك النهائي، <strong>V₁</strong> السرعة الابتدائية، <strong>V₂</strong> السرعة النهائية، <strong>D</strong> قطر الدرفيل، <strong>α</strong> زاوية التلامس.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="qa-box">
+                    <h4>مثال محلول (1) - حساب نسبة التخفيض من السرعات:</h4>
+                    <p><strong>المسألة:</strong> في درفلة رقائق الألومنيوم، السمك الابتدائي $H_1 = 1.2\text{ mm}$ والسرعة الابتدائية $V_1 = 10\text{ m/s}$ والسرعة النهائية $V_2 = 25\text{ m/s}$. احسب نسبة التخفيض.<br>
+                    <strong>الحل:</strong><br>
+                    1) $10 \times 1.2 = 25 \times H_2 \implies H_2 = 12 / 25 = 0.48\text{ mm}$<br>
+                    2) نسبة التخفيض $= \frac{1.2 - 0.48}{1.2} \times 100 = \mathbf{60\%}$</p>
+                </div>
+                <div class="qa-box">
+                    <h4>مثال محلول (2) - حساب النقص في السمك من زاوية التلامس:</h4>
+                    <p><strong>المسألة:</strong> عملية درفلة زاوية التلامس فيها $\alpha = 10^\circ$ وقطر الدرفيل $D = 300\text{ mm}$. أوجد النقص في السمك ($\Delta H$).<br>
+                    <strong>الحل:</strong><br>
+                    $\Delta H = D (1 - \cos \alpha) = 300 \times (1 - \cos 10^\circ)$<br>
+                    $\Delta H = 300 \times (1 - 0.9848) = \mathbf{4.56\text{ mm}}$</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الخامس: بنك الأسئلة والأجوبة النموذجية -->
+        <section id="qa-bank">
+            <h2>5. بنك الأسئلة والأجوبة النموذجية للمراجعة السريعة</h2>
+
+            <div class="qa-box">
+                <h4>س1: لماذا لا يُستخدم الحديد الغفل / تماسيح الحديد (Pig Iron) مباشرة في التطبيقات الهندسية؟</h4>
+                <p>ج: لأنه هش وضعيف لارتفاع نسبة الكربون فيه (حوالي 4%) واحتوائه على نسبة عالية من الشوائب كالكبريت والفسفور.</p>
+            </div>
+
+            <div class="qa-box">
+                <h4>س2: ما هي الخواص الميكانيكية والتكنولوجية الثلاث الحاكمة لاختيار أسلوب التصنيع؟</h4>
+                <p>ج: الانصهارية (Fusibility) للسباكة، اللدونة (Plasticity)، والممطولية (Ductility) للتشكيل اللدن كالدرفلة والبثق.</p>
+            </div>
+
+            <div class="qa-box">
+                <h4>س3: لماذا يكون الاحتكاك أقل في البثق غير المباشر مقارنة بالبثق المباشر؟</h4>
+                <p>ج: لعدم وجود حركة نسبية بين كتلة المعدن (Billet) وجدران الحاوية، حيث تكون نهاية الحاوية مغلقة بلوح غلق وتتحرك الاسطمبة المثبتة على الكباس المجوف نحو الكتلة.</p>
+            </div>
+
+            <div class="qa-box">
+                <h4>س4: ما وظيفة درافيل الإسناد (Backing Rolls) في ماكينات الدرفلة الرباعية والعنقودية؟</h4>
+                <p>ج: إسناد درافيل التشغيل ذات القطر الصغير ومنع انحنائها أو تقوسها تحت تأثير قوى الدرفلة العالية، خاصة في الدرفلة على البارد.</p>
+            </div>
+
+            <div class="qa-box">
+                <h4>س5: كيف تُنتج المواسير الطويلة بالسباكة دون استخدام دليك (Core)؟</h4>
+                <p>ج: عن طريق السباكة بالطرد المركزي ذات محور الدوران الأفقي، حيث تدفع قوة الطرد المركزي المعدن المنصهر نحو الجدار الداخلي للقالب الدوار تاركةً المركز مجوفاً بانتظام.</p>
+            </div>
+        </section>
+
+        <!-- القسم السادس: الاختبار التفاعلي الشامل -->
+        <section id="interactive-exam" class="exam-section">
+            <h2>6. الاختبار التفاعلي الشامل (اختياري + صح وغلط + ترتيب)</h2>
+            <p>اختبر فهمك لجميع أجزاء المنهج (38 سؤالاً متنوعاً). أجب عن الأسئلة ثم اضغط على زر <strong>"تصحيح الاختبار وعرض النتيجة"</strong> بالأسفل للحصول على درجتك وشرح الإجابة الصحيحة لكل سؤال.</p>
+
+            <div class="exam-tabs">
+                <button class="tab-btn active" onclick="filterQuestions('all', this)">عرض كل الأسئلة (38)</button>
+                <button class="tab-btn" onclick="filterQuestions('mcq', this)">أولاً: اختيار من متعدد (20)</button>
+                <button class="tab-btn" onclick="filterQuestions('tf', this)">ثانياً: صح أم خطأ (15)</button>
+                <button class="tab-btn" onclick="filterQuestions('order', this)">ثالثاً: أسئلة الترتيب (3)</button>
+            </div>
+
+            <div id="quiz-container"></div>
+
+            <div class="action-bar">
+                <button class="btn-submit" onclick="gradeExam()">تصحيح الاختبار وعرض النتيجة</button>
+                <button class="btn-reset" onclick="resetExam()">إعادة الاختبار من البداية</button>
+            </div>
+
+            <div id="score-board">
+                <h3 id="score-text"></h3>
+                <p id="score-details"></p>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 - منصة المذاكرة التفاعلية لهندسة الإنتاج وتكنولوجيا التصنيع</p>
+    </footer>
+
+    <script>
+        // قاعدة بيانات الأسئلة الشاملة
+        const mcqQuestions = [
+            {
+                q: "ما هو الجزء في القالب الرملي الذي يعمل كخزان إضافي للمعدن المنصهر لتعويض الانكماش أثناء التجمد؟",
+                options: ["مصب المعدن (Sprue)", "المغذي / المصعد (Riser)", "الدليك (Core)", "لوح القاعدة (Bottom Board)"],
+                answer: 1,
+                explanation: "المغذي (Riser) يمد تجويف القالب بالمعدن المنصهر لتعويض النقص الناتج عن انكماش المعدن أثناء التصلب."
+            },
+            {
+                q: "يُستخدم خشب الصنوبر الأبيض في صناعة النماذج الخشبية عندما لا يزيد عدد القطع المطلوب سباكتها عن:",
+                options: ["10 قطع", "30 قطعة", "100 قطعة", "500 قطعة"],
+                answer: 1,
+                explanation: "يُستخدم خشب الصنوبر الأبيض للكميات الصغيرة التي لا تزيد عن 30 قطعة، بينما تُستخدم الأخشاب الصلدة لنحو 100 قالب."
+            },
+            {
+                q: "في حالة الإنتاج الكمي (بالجملة)، تُصنع النماذج غالباً من معدن:",
+                options: ["الحديد الزهر", "النحاس الأصفر", "الألومنيوم", "الرصاص"],
+                answer: 2,
+                explanation: "النماذج المعدنية المصنوعة من الألومنيوم هي الأكثر انتشاراً في الإنتاج الكمي لخفتها ومقاومتها للتآكل."
+            },
+            {
+                q: "ما اسم الميل الطفيف الذي يُصنع في الجدران الرأسية للنموذج لتسهيل إخراجه من الرمل دون تهشيم القالب؟",
+                options: ["سماح الانكماش", "السلبية (Draft)", "ركيزة الدليك", "سماح التشغيل"],
+                answer: 1,
+                explanation: "السلبية (Draft) هي ميل في الجدران الرأسية للنموذج يسمح بسحبه بسهولة من القالب الرملي دون إتلاف جدرانه."
+            },
+            {
+                q: "يتكون خليط قوالب الرمل الأخضر (Green-Sand) من:",
+                options: ["90% رمل + 8% طمي + 2% ماء", "70% رمل + 20% زيت + 10% طمي", "90% رمل + 10% مولاس", "80% رمل + 15% طمي + 5% ماء"],
+                answer: 0,
+                explanation: "يتكون الرمل الأخضر من حوالي 90% رمل، و8% طمي (Clay) كمادة رابطة، و2% ماء."
+            },
+            {
+                q: "تُجفف قوالب الرمل الجاف (Dry-Sand) بعد إعدادها لمدة ساعتين عند درجة حرارة:",
+                options: ["50 – 80°م", "100 – 120°م", "180 – 220°م", "500 – 600°م"],
+                answer: 2,
+                explanation: "تُجفف قوالب الرمل الجاف لمدة ساعتين عند 180 – 220°م لطرد الرطوبة ومنع تكون الغازات أثناء صب الصلب."
+            },
+            {
+                q: "تُستخدم قوالب الرمل الجاف بصفة أساسية في مسابك:",
+                options: ["الألومنيوم", "الحديد الزهر", "الصلب", "النحاس"],
+                answer: 2,
+                explanation: "تُستخدم قوالب الرمل الجاف أساساً في مسابك الصلب لارتفاع درجة انصهاره وحساسيته للغازات الناتجة عن الرطوبة."
+            },
+            {
+                q: "لإنتاج التروس (المسننات) بطريقة السباكة بالطرد المركزي، نستخدم قالباً محور دورانه:",
+                options: ["أفقي", "رأسي", "مائل بزاوية 45 درجة", "متذبذب"],
+                answer: 1,
+                explanation: "السباكة بالطرد المركزي ذات محور الدوران الرأسي تُستخدم للأجزاء القصيرة ذات القطر الكبير مثل التروس."
+            },
+            {
+                q: "تتميز السباكة بالطرد المركزي ذات المحور الأفقي بإنتاج المواسير الطويلة:",
+                options: ["مصمتة بالكامل", "باستخدام دليك معدني", "دون استخدام دليك (Core)", "من البلاستيك فقط"],
+                answer: 2,
+                explanation: "قوة الطرد المركزي توزع المعدن على جدران القالب الأفقي الدوار فتتشكل الماسورة مجوفة دون الحاجة لدليك."
+            },
+            {
+                q: "في البثق غير المباشر (Indirect Extrusion)، يتحرك المعدن المنبثق في:",
+                options: ["نفس اتجاه حركة الكباس", "عكس اتجاه حركة الكباس", "اتجاه عمودي على الكباس", "حركة دائرية"],
+                answer: 1,
+                explanation: "في البثق غير المباشر تكون الاسطمبة في مقدمة الكباس المجوف، فيتدفق المعدن للخلف عكس اتجاه حركة الكباس."
+            },
+            {
+                q: "تُستخدم عملية البثق بالصدم (Impact Extrusion) على البارد لإنتاج:",
+                options: ["قضبان السكك الحديدية", "أنابيب معجون الأسنان وعلب المشروبات", "ريش التربينات العملاقة", "التروس الكبيرة"],
+                answer: 1,
+                explanation: "البثق بالصدم ينتج عبوات رقيقة الجدران مثل أنابيب معجون الأسنان وعلب الألومنيوم."
+            },
+            {
+                q: "المنتج الأولي في الدرفلة الذي يُستخدم لإنتاج الألواح والصفائح (Plates & Sheets) هو:",
+                options: ["البلاطات (Slabs)", "الكتل (Blooms)", "العروق (Billets)", "السبائك الدائرية"],
+                answer: 0,
+                explanation: "البلاطات (Slabs) ذات المقطع المستطيل العريض تُدرفل لإنتاج الألواح والصفائح واللفائف."
+            },
+            {
+                q: "تُستخدم ماكينة الدرفلة العنقودية (Cluster Rolling Mill) عادةً في:",
+                options: ["السباكة الرملية", "الدرفلة على البارد لقوى الدرفلة الكبيرة", "البثق المباشر", "إنتاج المواسير بالطرد المركزي"],
+                answer: 1,
+                explanation: "تحتوي الآلة العنقودية على درافيل تشغيل دقيقة مدعومة بمجموعة درافيل إسناد لتحمل القوى العالية في الدرفلة على البارد."
+            },
+            {
+                q: "في ماكينة الدرفلة ثلاثية الدرافيل (Three-High Mill)، يتم تمرير المعدن من الجهتين في مرحلتين متتاليتين:",
+                options: ["بعكس اتجاه دوران المحرك", "دون الحاجة لعكس اتجاه دوران الدرافيل", "بإيقاف الماكينة وتغيير الدرافيل", "باستخدام دليك رملي"],
+                answer: 1,
+                explanation: "وجود ثلاثة درافيل يجعل الفجوة العلوية تدور في اتجاه معاكس للسفلية، فيمر المعدن ذهاباً وإياباً دون عكس الدوران."
+            },
+            {
+                q: "في عملية درفلة، إذا كان السمك الابتدائي 2 mm والسرعة الابتدائية 15 m/s والسرعة النهائية 30 m/s، فإن السمك النهائي يساوي:",
+                options: ["4 mm", "1 mm", "0.5 mm", "1.5 mm"],
+                answer: 1,
+                explanation: "من قانون التدفق: V1 × H1 = V2 × H2 ← 15 × 2 = 30 × H2 ← H2 = 30 / 30 = 1 mm."
+            },
+            {
+                q: "في عملية درفلة، قطر الدرفيل 200 mm وزاوية التلامس 10 درجات (cos 10° = 0.9848)، فإن النقص في السمك (ΔH) يساوي تقريباً:",
+                options: ["3.04 mm", "1.52 mm", "6.08 mm", "10 mm"],
+                answer: 0,
+                explanation: "ΔH = D (1 - cos α) = 200 × (1 - 0.9848) = 200 × 0.0152 = 3.04 mm."
+            },
+            {
+                q: "يُسمى النموذج في الورش والمسابك العربية أيضاً باسم:",
+                options: ["الدليك", "الأورنيك", "المغذي", "المصب"],
+                answer: 1,
+                explanation: "يُطلق على النموذج (Pattern) في المصطلح الفني بالمسابك اسم الأورنيك."
+            },
+            {
+                q: "بعد استخدام رمل القوالب الأخضر، يُعاد تجهيزه بالطحن والنخل وإضافة نسبة من الرمل الجديد تقدر بحوالي:",
+                options: ["5%", "10%", "30%", "75%"],
+                answer: 2,
+                explanation: "يُضاف نحو 30% رمل جديد مع مسحوق الطمي والماء لتعويض الفاقد واستعادة خواص التماسك."
+            },
+            {
+                q: "الجزء رقم (4) في الرسم التخطيطي للقالب الرملي يمثل:",
+                options: ["مصب المعدن (Sprue)", "لوح القاعدة (Bottom Board)", "المغذي (Riser)", "الدليك (Core)"],
+                answer: 1,
+                explanation: "الرقم 4 يشير إلى لوح القاعدة السفلي (Bottom Board) الذي يحمل القالب."
+            },
+            {
+                q: "تُستعمل الدرفلة على البارد عادةً في المراحل النهائية لتشكيل المعادن بهدف الحصول على:",
+                options: ["تخفيض كبير جداً في السمك بضربة واحدة", "جودة السطح الناتج ودقة المقاسات", "صهر المعدن وإعادة سبكه", "تقليل صلادة المعدن"],
+                answer: 1,
+                explanation: "تتميز الدرفلة على البارد بإعطاء سطح ناعم عالي الجودة ودقة عالية في الأبعاد النهائية."
+            }
+        ];
+
+        const tfQuestions = [
+            {
+                q: "تُعد سباكة القوالب الرملية أقدم طرق السباكة، لكنها ما زالت تحتل مساحة كبيرة من حجم الإنتاج الصناعي.",
+                answer: true,
+                explanation: "صحيح، رغم التطور التكنولوجي تظل السباكة الرملية الأكثر انتشاراً لمرونتها وانخفاض تكلفتها."
+            },
+            {
+                q: "يُصنع النموذج (Pattern) مجوفاً من الداخل إذا كان المنتج المطلوب سباكته ماسورة مجوفة.",
+                answer: false,
+                explanation: "خطأ، يُصنع النموذج مُصمتاً بالكامل وتُضاف له ركائز دليك، بينما يتشكل التجويف الداخلي بواسطة الدليك (Core)."
+            },
+            {
+                q: "تتميز قوالب الرمل الجاف بعدم تكون غازات أثناء الصب لعدم وجود رطوبة في الرمل.",
+                answer: true,
+                explanation: "صحيح، لأن تجفيف القالب لمدة ساعتين عند 180–220°م يزيل الرطوبة تماماً."
+            },
+            {
+                q: "يُستخدم خشب الزان والماهوجني عندما يكون عدد القوالب المطلوبة أقل من 30 قالباً فقط.",
+                answer: false,
+                explanation: "خطأ، خشب الصنوبر الأبيض هو الذي يُستخدم لأقل من 30 قطعة، أما الأخشاب الصلدة كالزان والماهوجني فتُستخدم لنحو 100 قالب."
+            },
+            {
+                q: "تُستخدم السباكة بالطرد المركزي ذات محور الدوران الرأسي لإنتاج المواسير الطويلة دون دليك.",
+                answer: false,
+                explanation: "خطأ، محور الدوران الأفقي هو الذي يُستخدم لإنتاج الأنابيب والمواسير، أما الرأسي فيُستخدم للتروس."
+            },
+            {
+                q: "في البثق المباشر، تكون القوة المطلوبة أكبر من البثق غير المباشر بسبب احتكاك المعدن بجدران الحاوية.",
+                answer: true,
+                explanation: "صحيح، انزلاق كتلة المعدن (Billet) بطول الحاوية يولد احتكاكاً عالياً يزيد من القوة المطلوبة."
+            },
+            {
+                q: "في البثق بالصدم (Impact Extrusion)، يتدفق المعدن في نفس اتجاه حركة المكبس لأسفل.",
+                answer: false,
+                explanation: "خطأ، يتدفق المعدن إلى الأعلى حول المكبس في عكس اتجاه الكبس."
+            },
+            {
+                q: "في عملية الدرفلة، يدور الدرفيل العلوي والدرفيل السفلي في نفس الاتجاه.",
+                answer: false,
+                explanation: "خطأ، يدور الدرفيلان في اتجاهين متعاكسين لسحب المعدن وضغطه بينهما."
+            },
+            {
+                q: "الاحتكاك بين المعدن والسطح العامل للدرفيلين هو العامل الأساسي الذي يسحب المعدن للاستمرار في المرور بينهما.",
+                answer: true,
+                explanation: "صحيح، لولا قوة الاحتكاك لما تمكنت الدرافيل من سحب المشغولة إلى منطقة التشوه."
+            },
+            {
+                q: "في ماكينة الدرفلة الرباعية (Four-High Mill)، الدرفيلان الكبيران هما اللذان يلامسان المعدن مباشرة.",
+                answer: false,
+                explanation: "خطأ، الدرفيلان الصغيران هما درافيل التشغيل التي تلامس المعدن، بينما الكبيران هما درافيل إسناد (Backing rolls)."
+            },
+            {
+                q: "تُستخدم العروق (Billets) في الدرفلة لإنتاج القضبان والأسياخ (Bars & Rods) والأسلاك.",
+                answer: true,
+                explanation: "صحيح، بينما تُستخدم الكتل (Blooms) للقطاعات الإنشائية والسكك الحديدية، والبلاطات (Slabs) للألواح."
+            },
+            {
+                q: "يزداد سمك المعدن ويقل طوله بعد خروجه من عملية الدرفلة.",
+                answer: false,
+                explanation: "خطأ، العكس هو الصحيح؛ يقل السمك ويزداد الطول نتيجة ثبات الحجم."
+            },
+            {
+                q: "يُستخدم الحديد الغفل (Pig Iron) مباشرة في صناعة التروس والهياكل الإنشائية.",
+                answer: false,
+                explanation: "خطأ، الحديد الغفل هش وضعيف لارتفاع نسبة الكربون (4%) والشوائب، لذا يُعاد صهره وتنقيته لإنتاج الصلب أو الحديد الزهر."
+            },
+            {
+                q: "الجزء رقم (9) في رسم القالب الرملي هو المغذي (Riser) والرقم (11) هو مصب المعدن (Sprue).",
+                answer: true,
+                explanation: "صحيح، الرقم 11 هو مجرى الصب الرأسي (Sprue) والرقم 9 هو المغذي (Riser)."
+            },
+            {
+                q: "في ماكينة الدرفلة، تُخفض سرعة المحرك قبل وصولها لوحدة الدرفلة باستخدام وحدة تخفيض (Reduction unit).",
+                answer: true,
+                explanation: "صحيح، تنتقل الحركة من المحرك إلى وحدة التخفيض ثم وحدة التروس ثم درافيل التشغيل."
+            }
+        ];
+
+        const orderQuestions = [
+            {
+                q: "رتب المراحل الخمس الأساسية لعملية السباكة الرملية (Sand Casting) من البداية إلى النهاية:",
+                items: [
+                    "عمل نموذج للشكل المراد سباكته (Pattern)",
+                    "إعداد القالب الرملي (Moulding)",
+                    "إعداد الدليك (Core)",
+                    "صهر وصب المعدن (Melting & Pouring)",
+                    "تفوير القالب وإخراج المسبوك وتنظيفه وفحصه (Fettling & Inspection)"
+                ],
+                explanation: "الترتيب الصحيح لمراحل السباكة الرملية: عمل النموذج ← إعداد القالب ← إعداد الدليك ← الصهر والصب ← التفوير والتنظيف والفحص."
+            },
+            {
+                q: "رتب الخطوات العملية لتجهيز القالب الرملي (كما في مسألة الماسورة المخروطية):",
+                items: [
+                    "وضع نصف النموذج السفلي وصندوق السباكة السفلي (Drag) ودك الرمل جيداً",
+                    "قلب النصف السفلي ووضع النصف العلوي للنموذج والصندوق (Cope) وتثبيت نماذج المصب والمغذي ودك الرمل",
+                    "فصل نصفي القالب وسحب نصفي النموذج بعناية وعمل مجاري التغذية",
+                    "وضع الدليك (Core) في مكانه على ركائز الدليك وإغلاق القالب استعداداً للصب"
+                ],
+                explanation: "يُجهز النصف السفلي أولاً، ثم يُقلب ويُجهز العلوي، ثم يُسحب النموذج، وأخيراً يُوضع الدليك ويُغلق القالب."
+            },
+            {
+                q: "رتب تسلسل انتقال الحركة في ماكينة الدرفلة (Rolling Mill) من مصدر القدرة حتى الدرافيل:",
+                items: [
+                    "المحرك الكهربائي (Motor)",
+                    "وحدة تخفيض السرعة (Reduction unit)",
+                    "وحدة التروس (Gear unit)",
+                    "وحدة الدرفلة (Rolling unit)"
+                ],
+                explanation: "يدور المحرك (1) ← تُخفض سرعته في وحدة التخفيض (2) ← تُنقل الحركة عبر وحدة التروس (3) ← تدور درافيل التشكيل (4)."
+            }
+        ];
+
+        // خلط عناصر المصفوفة لأسئلة الترتيب
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            // التأكد من أنها ليست مرتبة بالصدفة
+            if (arr.every((val, idx) => val === array[idx])) {
+                [arr[0], arr[1]] = [arr[1], arr[0]];
+            }
+            return arr;
+        }
+
+        function renderExam() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            let qCounter = 1;
+
+            // 1. اختيار من متعدد
+            mcqQuestions.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.dataset.type = 'mcq';
+                card.id = `mcq-card-${index}`;
+
+                let optionsHTML = '';
+                item.options.forEach((opt, optIdx) => {
+                    optionsHTML += `
+                        <label class="option-label">
+                            <input type="radio" name="mcq-${index}" value="${optIdx}">
+                            <span>${opt}</span>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="q-title"><span class="q-badge">اختياري #${qCounter++}</span> ${item.q}</div>
+                    <div class="options-list">${optionsHTML}</div>
+                    <div class="feedback-msg" id="mcq-fb-${index}"></div>
+                `;
+                container.appendChild(card);
+            });
+
+            // 2. صح أم خطأ
+            tfQuestions.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.dataset.type = 'tf';
+                card.id = `tf-card-${index}`;
+
+                card.innerHTML = `
+                    <div class="q-title"><span class="q-badge" style="background:#17b978;">صح أم خطأ #${qCounter++}</span> ${item.q}</div>
+                    <div class="options-list">
+                        <label class="option-label">
+                            <input type="radio" name="tf-${index}" value="true">
+                            <span>صح (True)</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="tf-${index}" value="false">
+                            <span>خطأ (False)</span>
+                        </label>
+                    </div>
+                    <div class="feedback-msg" id="tf-fb-${index}"></div>
+                `;
+                container.appendChild(card);
+            });
+
+            // 3. أسئلة الترتيب
+            orderQuestions.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.dataset.type = 'order';
+                card.id = `order-card-${index}`;
+
+                const shuffled = shuffleArray(item.items);
+                let listHTML = '';
+                shuffled.forEach((stepText) => {
+                    listHTML += `
+                        <li class="order-item" data-text="${stepText}">
+                            <span class="step-label">${stepText}</span>
+                            <div class="order-controls">
+                                <button type="button" class="order-btn" title="تحريك لأعلى" onclick="moveItem(this, -1)">▲</button>
+                                <button type="button" class="order-btn" title="تحريك لأسفل" onclick="moveItem(this, 1)">▼</button>
+                            </div>
+                        </li>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="q-title"><span class="q-badge" style="background:#ff6e40;">رتب الخطوات #${qCounter++}</span> ${item.q}</div>
+                    <ul class="order-list" id="order-list-${index}">${listHTML}</ul>
+                    <div class="feedback-msg" id="order-fb-${index}"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function moveItem(btn, direction) {
+            const li = btn.closest('.order-item');
+            const ul = li.parentElement;
+            if (direction === -1 && li.previousElementSibling) {
+                ul.insertBefore(li, li.previousElementSibling);
+            } else if (direction === 1 && li.nextElementSibling) {
+                ul.insertBefore(li.nextElementSibling, li);
+            }
+        }
+
+        function filterQuestions(type, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.quiz-card').forEach(card => {
+                if (type === 'all' || card.dataset.type === type) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function gradeExam() {
+            let score = 0;
+            const total = mcqQuestions.length + tfQuestions.length + orderQuestions.length;
+
+            // تصحيح الاختياري
+            mcqQuestions.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="mcq-${index}"]:checked`);
+                const card = document.getElementById(`mcq-card-${index}`);
+                const fb = document.getElementById(`mcq-fb-${index}`);
+                card.classList.remove('correct-card', 'wrong-card');
+                fb.classList.remove('show-correct', 'show-wrong');
+
+                if (selected && parseInt(selected.value) === item.answer) {
+                    score++;
+                    card.classList.add('correct-card');
+                    fb.classList.add('show-correct');
+                    fb.innerHTML = `<strong>✔ إجابة صحيحة!</strong> ${item.explanation}`;
+                } else {
+                    card.classList.add('wrong-card');
+                    fb.classList.add('show-wrong');
+                    fb.innerHTML = `<strong>✘ إجابة خاطئة.</strong> الإجابة الصحيحة هي: <u>${item.options[item.answer]}</u>.<br>${item.explanation}`;
+                }
+            });
+
+            // تصحيح صح أم خطأ
+            tfQuestions.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="tf-${index}"]:checked`);
+                const card = document.getElementById(`tf-card-${index}`);
+                const fb = document.getElementById(`tf-fb-${index}`);
+                card.classList.remove('correct-card', 'wrong-card');
+                fb.classList.remove('show-correct', 'show-wrong');
+
+                const userVal = selected ? (selected.value === 'true') : null;
+                if (userVal === item.answer) {
+                    score++;
+                    card.classList.add('correct-card');
+                    fb.classList.add('show-correct');
+                    fb.innerHTML = `<strong>✔ إجابة صحيحة!</strong> ${item.explanation}`;
+                } else {
+                    card.classList.add('wrong-card');
+                    fb.classList.add('show-wrong');
+                    fb.innerHTML = `<strong>✘ إجابة خاطئة.</strong> الإجابة الصحيحة هي: <u>${item.answer ? 'صح' : 'خطأ'}</u>.<br>${item.explanation}`;
+                }
+            });
+
+            // تصحيح الترتيب
+            orderQuestions.forEach((item, index) => {
+                const listItems = document.querySelectorAll(`#order-list-${index} .order-item`);
+                const card = document.getElementById(`order-card-${index}`);
+                const fb = document.getElementById(`order-fb-${index}`);
+                card.classList.remove('correct-card', 'wrong-card');
+                fb.classList.remove('show-correct', 'show-wrong');
+
+                let isCorrectOrder = true;
+                listItems.forEach((li, idx) => {
+                    if (li.dataset.text !== item.items[idx]) {
+                        isCorrectOrder = false;
+                    }
+                });
+
+                if (isCorrectOrder) {
+                    score++;
+                    card.classList.add('correct-card');
+                    fb.classList.add('show-correct');
+                    fb.innerHTML = `<strong>✔ ترتيب صحيح 100%!</strong> ${item.explanation}`;
+                } else {
+                    card.classList.add('wrong-card');
+                    fb.classList.add('show-wrong');
+                    const correctStepsHTML = item.items.map((st, i) => `${i + 1}. ${st}`).join('<br>');
+                    fb.innerHTML = `<strong>✘ الترتيب غير صحيح.</strong> الترتيب الصحيح هو:<br>${correctStepsHTML}`;
+                }
+            });
+
+            // إظهار لوحة النتيجة
+            const percentage = Math.round((score / total) * 100);
+            const scoreBoard = document.getElementById('score-board');
+            const scoreText = document.getElementById('score-text');
+            const scoreDetails = document.getElementById('score-details');
+
+            let gradeMsg = '';
+            if (percentage >= 90) gradeMsg = 'ممتاز جداً! استيعاب رائع للمادة.';
+            else if (percentage >= 75) gradeMsg = 'جيد جداً! راجع الأسئلة الحمراء لتصل للدرجة النهائية.';
+            else if (percentage >= 50) gradeMsg = 'جيد، تحتاج لمراجعة القوانين والملاحظات مرة أخرى.';
+            else gradeMsg = 'تحتاج إلى مذاكرة الشرح بالأعلى ثم إعادة الاختبار.';
+
+            scoreText.textContent = `نتيجتك: ${score} من ${total} (${percentage}%)`;
+            scoreDetails.textContent = gradeMsg;
+            scoreBoard.style.display = 'block';
+            scoreBoard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetExam() {
+            document.getElementById('score-board').style.display = 'none';
+            renderExam();
+            // الحفاظ على التبويب النشط
+            const activeTab = document.querySelector('.tab-btn.active');
+            if (activeTab) activeTab.click();
+        }
+
+        // تشغيل الاختبار عند تحميل الصفحة
+        window.onload = renderExam;
+    </script>
+</body>
+</html>
