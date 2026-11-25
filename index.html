@@ -24,6 +24,7 @@
             --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             --font-size-base: 16px;
             --transition-speed: 0.3s;
+            --sidebar-width: 280px;
         }
 
         /* الثيمات */
@@ -143,6 +144,7 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 80px;
         }
 
         body {
@@ -152,6 +154,7 @@
             font-size: var(--font-size-base);
             line-height: 1.8;
             transition: background-color var(--transition-speed), color var(--transition-speed);
+            padding-left: var(--sidebar-width);
         }
 
         /* أنيميشن */
@@ -220,16 +223,136 @@
             z-index: 1;
         }
 
+        /* ===== القائمة الجانبية ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--card-bg);
+            border-right: 3px solid var(--primary);
+            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            z-index: 2000;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            padding: 1rem 0;
+        }
+
+        .sidebar-header {
+            padding: 0 1.2rem 1rem;
+            border-bottom: 2px solid var(--info-border);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-header h3 {
+            color: var(--primary);
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-toggle-mobile {
+            display: none;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0 0.6rem;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            border-right: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover {
+            background: var(--info-bg);
+            border-right-color: var(--secondary);
+            color: var(--primary);
+            transform: translateX(-3px);
+        }
+
+        .sidebar-nav a.active {
+            background: var(--primary);
+            color: white;
+            border-right-color: var(--accent);
+        }
+
+        .sidebar-nav .sub-item a {
+            padding-right: 28px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            opacity: 0.85;
+        }
+
+        .sidebar-nav .sub-item a:hover {
+            opacity: 1;
+        }
+
+        .sidebar-footer {
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.2rem;
+            border-top: 1px solid var(--info-border);
+        }
+
+        .lang-switch-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            background: var(--info-bg);
+            color: var(--primary);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .lang-switch-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
         /* شريط الإعدادات */
         .settings-bar {
             position: fixed;
             top: 50%;
-            left: 0;
+            left: var(--sidebar-width);
             transform: translateY(-50%);
-            z-index: 9999;
+            z-index: 1999;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            transition: left var(--transition-speed);
         }
 
         .settings-toggle {
@@ -252,7 +375,7 @@
         .settings-panel {
             position: fixed;
             top: 0;
-            left: -320px;
+            left: calc(-320px + var(--sidebar-width));
             width: 320px;
             height: 100vh;
             background: var(--card-bg);
@@ -265,7 +388,7 @@
         }
 
         .settings-panel.open {
-            left: 0;
+            left: var(--sidebar-width);
         }
 
         .settings-panel h3 {
@@ -352,11 +475,17 @@
             font-weight: bold;
         }
 
-        nav {
+        /* محتوى رئيسي */
+        .main-content {
+            margin-left: 0;
+            transition: margin var(--transition-speed);
+        }
+
+        nav.top-nav {
             background-color: var(--primary-dark);
             padding: 0.8rem 0.5rem;
             text-align: center;
-            position: sticky;
+            position: relative;
             top: 0;
             z-index: 1000;
             box-shadow: 0 3px 8px rgba(0,0,0,0.2);
@@ -367,7 +496,7 @@
             transition: background-color var(--transition-speed);
         }
 
-        nav a {
+        nav.top-nav a {
             color: white;
             text-decoration: none;
             padding: 6px 14px;
@@ -378,13 +507,13 @@
             background: rgba(255,255,255,0.08);
         }
 
-        nav a:hover {
+        nav.top-nav a:hover {
             background-color: var(--secondary);
             color: #fff;
             transform: translateY(-2px);
         }
 
-        nav a.exam-link {
+        nav.top-nav a.exam-link {
             background-color: var(--accent);
         }
 
@@ -869,77 +998,6 @@
             transform: scale(1.2);
         }
 
-        /* زر القلب */
-        .flip-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin: 5px;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .flip-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .flip-container {
-            perspective: 1000px;
-            margin: 1rem 0;
-        }
-
-        .flip-card {
-            background: transparent;
-            width: 100%;
-            min-height: 120px;
-            perspective: 1000px;
-        }
-
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 120px;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            min-height: 120px;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            border-radius: 10px;
-        }
-
-        .flip-card-front {
-            background: var(--card-bg);
-            border: 1px solid var(--info-border);
-            color: var(--text-color);
-        }
-
-        .flip-card-back {
-            background: var(--info-bg);
-            border: 1px solid var(--info-border);
-            color: var(--text-color);
-            transform: rotateY(180deg);
-        }
-
         footer {
             background-color: #111;
             color: #aaa;
@@ -949,22 +1007,202 @@
             margin-top: 3rem;
         }
 
-        /* الوضع المظلم للعناصر الثابتة */
         [data-theme="dark"] footer,
         [data-theme="midnight"] footer {
             background-color: #0a0a0a;
         }
 
-        @media(max-width: 768px) {
+        /* زر فتح القائمة الجانبية للموبايل */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 3000;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        @media(max-width: 900px) {
+            body { padding-left: 0; }
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-toggle-mobile { display: block; }
+            .mobile-menu-btn { display: block; }
+            .settings-bar { left: 0; }
+            .settings-panel { left: -320px; }
+            .settings-panel.open { left: 0; }
             header h1 { font-size: 1.75rem; }
             section { padding: 1.4rem; }
             .math-eq { font-size: 1.05rem; }
-            .settings-panel { width: 280px; left: -290px; }
             .mindmap { min-width: 400px; }
+        }
+
+        /* زر تبديل شرح المحتوى */
+        .content-lang-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--info-bg);
+            border: 2px solid var(--info-border);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .content-lang-toggle:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .en-content {
+            display: none;
+            direction: ltr;
+            text-align: left;
+        }
+
+        body.show-english .ar-content {
+            display: none;
+        }
+
+        body.show-english .en-content {
+            display: block;
+            direction: ltr;
+            text-align: left;
+        }
+
+        body.show-english {
+            direction: ltr;
+        }
+
+        body.show-english .sidebar {
+            border-right: none;
+            border-left: 3px solid var(--primary);
+        }
+
+        body.show-english .sidebar-nav a {
+            border-right: none;
+            border-left: 3px solid transparent;
+        }
+
+        body.show-english .sidebar-nav a:hover {
+            border-left-color: var(--secondary);
+            transform: translateX(3px);
+        }
+
+        body.show-english .sidebar-nav a.active {
+            border-left-color: var(--accent);
+        }
+
+        body.show-english .sidebar-nav .sub-item a {
+            padding-right: 12px;
+            padding-left: 28px;
+        }
+
+        body.show-english section {
+            border-right: none;
+            border-left: 6px solid var(--primary);
+        }
+
+        body.show-english .note-box {
+            border-right: none;
+            border-left: 5px solid var(--warning-border);
+        }
+
+        body.show-english .formula-box {
+            border-right: none;
+            border-left: 5px solid var(--info-border);
+        }
+
+        body.show-english section h3 {
+            border-right: none;
+            border-left: 4px solid var(--secondary);
+            padding-right: 0;
+            padding-left: 10px;
+        }
+
+        body.show-english th, body.show-english td {
+            text-align: left;
+        }
+
+        body.show-english .info-card {
+            border-top: 4px solid var(--primary);
+        }
+
+        body.show-english .qa-box {
+            border-right: none;
+            border-left: 4px solid var(--secondary);
+        }
+
+        body.show-english .feedback-msg.show-correct {
+            border-right: none;
+            border-left: 4px solid var(--correct-border);
+        }
+
+        body.show-english .feedback-msg.show-wrong {
+            border-right: none;
+            border-left: 4px solid var(--wrong-border);
+        }
+
+        body.show-english .tab-btn.active, body.show-english .tab-btn:hover {
+            background: var(--primary);
+            color: white;
         }
     </style>
 </head>
 <body>
+
+    <!-- زر فتح القائمة الجانبية للموبايل -->
+    <button class="mobile-menu-btn" onclick="toggleSidebar()" title="القائمة">☰</button>
+
+    <!-- القائمة الجانبية -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>📑 فهرس المحتويات</h3>
+            <button class="sidebar-toggle-mobile" onclick="toggleSidebar()">✖</button>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#mold-diagram" class="sidebar-link">1. أجزاء القالب الرملي</a></li>
+            <li><a href="#casting-details" class="sidebar-link">2. السباكة والنماذج</a></li>
+            <li class="sub-item"><a href="#casting-details" class="sidebar-link">أ. مفهوم السباكة</a></li>
+            <li class="sub-item"><a href="#casting-details" class="sidebar-link">ب. النماذج وخاماتها</a></li>
+            <li class="sub-item"><a href="#casting-details" class="sidebar-link">ج. مقارنة الرمل الأخضر والجاف</a></li>
+            <li class="sub-item"><a href="#casting-details" class="sidebar-link">د. الطرد المركزي</a></li>
+            <li><a href="#extrusion-details" class="sidebar-link">3. عملية البثق</a></li>
+            <li class="sub-item"><a href="#extrusion-details" class="sidebar-link">أ. المباشر وغير المباشر</a></li>
+            <li class="sub-item"><a href="#extrusion-details" class="sidebar-link">ب. البثق بالصدم</a></li>
+            <li><a href="#rolling-details" class="sidebar-link">4. درفلة المعادن</a></li>
+            <li class="sub-item"><a href="#rolling-details" class="sidebar-link">أ. المنتجات الأولية</a></li>
+            <li class="sub-item"><a href="#rolling-details" class="sidebar-link">ب. أنواع الماكينات</a></li>
+            <li class="sub-item"><a href="#rolling-details" class="sidebar-link">ج. القوانين والأمثلة</a></li>
+            <li><a href="#summary-section" class="sidebar-link">5. الملخص النهائي</a></li>
+            <li><a href="#mindmap-section" class="sidebar-link">6. الخريطة الذهنية</a></li>
+            <li><a href="#qa-bank" class="sidebar-link">7. بنك الأسئلة والأجوبة</a></li>
+            <li><a href="#interactive-exam" class="sidebar-link">8. الاختبار التفاعلي</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="lang-switch-btn" onclick="toggleContentLanguage()">
+                <span id="contentLangIcon">🌐</span>
+                <span id="contentLangText">تحويل الشرح إلى English</span>
+            </button>
+        </div>
+    </aside>
 
     <!-- شريط الإعدادات -->
     <div class="settings-bar">
@@ -1008,6 +1246,13 @@
         </div>
 
         <div class="settings-group">
+            <label>🌐 لغة الشرح (Content Language)</label>
+            <button onclick="toggleContentLanguage()" style="width:100%;padding:10px;border-radius:8px;border:none;background:var(--secondary);color:white;font-weight:bold;cursor:pointer;font-size:1rem;" id="settingsLangBtn">
+                🌐 تحويل الشرح إلى English
+            </button>
+        </div>
+
+        <div class="settings-group">
             <label>⛶ وضع ملء الشاشة (Fullscreen)</label>
             <button onclick="toggleFullscreen()" style="width:100%;padding:10px;border-radius:8px;border:none;background:var(--primary);color:white;font-weight:bold;cursor:pointer;font-size:1rem;">
                 ⛶ تبديل ملء الشاشة
@@ -1024,326 +1269,636 @@
         <button class="close-settings" onclick="toggleSettings()">إغلاق ✖</button>
     </div>
 
-    <header>
-        <h1>الموسوعة التفاعلية لهندسة الإنتاج وعمليات التصنيع</h1>
-        <p>شرح شامل ومفصل للسباكة الرملية والطرد المركزي، البثق، والدرفلة + بنك أسئلة واختبار تفاعلي بالتصحيح الفوري</p>
-    </header>
+    <div class="main-content">
+        <header>
+            <h1 class="ar-content">الموسوعة التفاعلية لهندسة الإنتاج وعمليات التصنيع</h1>
+            <h1 class="en-content">Interactive Encyclopedia of Production Engineering & Manufacturing Processes</h1>
+            <p class="ar-content">شرح شامل ومفصل للسباكة الرملية والطرد المركزي، البثق، والدرفلة + بنك أسئلة واختبار تفاعلي بالتصحيح الفوري</p>
+            <p class="en-content">Comprehensive and detailed explanation of sand casting, centrifugal casting, extrusion, and rolling + question bank and interactive quiz with instant correction</p>
+        </header>
 
-    <nav>
-        <a href="#mold-diagram">1. أجزاء القالب الرملي</a>
-        <a href="#casting-details">2. السباكة والنماذج</a>
-        <a href="#extrusion-details">3. عملية البثق</a>
-        <a href="#rolling-details">4. درفلة المعادن والقوانين</a>
-        <a href="#summary-section">5. الملخص النهائي</a>
-        <a href="#mindmap-section">6. الخريطة الذهنية</a>
-        <a href="#qa-bank">7. بنك الأسئلة والأجوبة</a>
-        <a href="#interactive-exam" class="exam-link">8. الاختبار التفاعلي الشامل</a>
-    </nav>
+        <nav class="top-nav">
+            <a href="#mold-diagram" class="ar-content">1. أجزاء القالب الرملي</a>
+            <a href="#mold-diagram" class="en-content">1. Sand Mold Parts</a>
+            <a href="#casting-details" class="ar-content">2. السباكة والنماذج</a>
+            <a href="#casting-details" class="en-content">2. Casting & Patterns</a>
+            <a href="#extrusion-details" class="ar-content">3. عملية البثق</a>
+            <a href="#extrusion-details" class="en-content">3. Extrusion</a>
+            <a href="#rolling-details" class="ar-content">4. درفلة المعادن</a>
+            <a href="#rolling-details" class="en-content">4. Metal Rolling</a>
+            <a href="#summary-section" class="ar-content">5. الملخص النهائي</a>
+            <a href="#summary-section" class="en-content">5. Final Summary</a>
+            <a href="#mindmap-section" class="ar-content">6. الخريطة الذهنية</a>
+            <a href="#mindmap-section" class="en-content">6. Mind Map</a>
+            <a href="#qa-bank" class="ar-content">7. بنك الأسئلة</a>
+            <a href="#qa-bank" class="en-content">7. Q&A Bank</a>
+            <a href="#interactive-exam" class="exam-link ar-content">8. الاختبار التفاعلي</a>
+            <a href="#interactive-exam" class="exam-link en-content">8. Interactive Exam</a>
+        </nav>
 
-    <div class="container">
+        <div class="container">
 
-        <!-- القسم الأول: بيانات الأجزاء المرقمة للقالب الرملي -->
-        <section id="mold-diagram">
-            <h2>1. بيانات الأجزاء المرقمة للقالب الرملي (Sand Mold Parts)</h2>
-            <p>بناءً على الرسم الهندسي المعتمد للقالب الرملي، تم تدقيق وتصحيح جميع الأرقام لتطابق مواضعها الدقيقة على الرسم:</p>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الرقم على الرسم</th>
-                            <th>اسم الجزء (عربي)</th>
-                            <th>المصطلح (إنجليزي)</th>
-                            <th>الوظيفة الهندسية التفصيلية</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>1</strong></td><td>صندوق السباكة</td><td>Flask</td><td>الإطار المعدني أو الخشبي الحاضن لرمل التشكيل، ويتكون من نصفين (علوي وسفلي).</td></tr>
-                        <tr><td><strong>3</strong></td><td>تجويف القالب</td><td>Mold Cavity</td><td>الفراغ الداخلي المتروك بعد سحب النموذج، والذي يملؤه المعدن المنصهر لتكوين شكل المنتج.</td></tr>
-                        <tr><td><strong>4</strong></td><td>لوح القاعدة</td><td>Bottom Board</td><td>اللوح السفلي المستوي الذي يرتكز عليه صندوق السباكة بالكامل لحمل الرمل والمعدن.</td></tr>
-                        <tr><td><strong>5</strong></td><td>النصف السفلي للقالب الرملي</td><td>Drag</td><td>الجزء السفلي من القالب الرملي الملامس للوح القاعدة.</td></tr>
-                        <tr><td><strong>6</strong></td><td>الدليك (القلب الرملي)</td><td>Core</td><td>كتلة رملية متماسكة توضع داخل القالب لتكوين التجاويف والثقوب الداخلية للمسبوكات المجوفة.</td></tr>
-                        <tr><td><strong>7</strong></td><td>خط الانفصال (ومشابك التثبيت)</td><td>Parting Line (Clamps)</td><td>المستوى الفاصل بين نصفي القالب العلوي والسفلي، وتوجد عنده بنوز ومشابك المحاذاة.</td></tr>
-                        <tr><td><strong>8</strong></td><td>النصف العلوي للقالب الرملي</td><td>Cope</td><td>الجزء العلوي من القالب الرملي الذي يحتوي على فتحات الصب والمغذيات.</td></tr>
-                        <tr><td><strong>9</strong></td><td>المغذي (المصعد)</td><td>Riser</td><td>خزان للمعدن المنصهر يعوض انكماش المعدن أثناء التجمد ويسمح بخروج الغازات والأوساخ.</td></tr>
-                        <tr><td><strong>11</strong></td><td>مصب المعدن (المجرى النازل)</td><td>Sprue (Downsprue)</td><td>القناة الرأسية التي يُصب فيها المعدن المنصهر من الخارج ليصل إلى مجاري التغذية ثم التجويف.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+            <!-- القسم الأول -->
+            <section id="mold-diagram">
+                <h2 class="ar-content">1. بيانات الأجزاء المرقمة للقالب الرملي (Sand Mold Parts)</h2>
+                <h2 class="en-content">1. Sand Mold Parts Data</h2>
+                
+                <div class="ar-content">
+                    <p>بناءً على الرسم الهندسي المعتمد للقالب الرملي، تم تدقيق وتصحيح جميع الأرقام لتطابق مواضعها الدقيقة على الرسم:</p>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الرقم على الرسم</th>
+                                    <th>اسم الجزء (عربي)</th>
+                                    <th>المصطلح (إنجليزي)</th>
+                                    <th>الوظيفة الهندسية التفصيلية</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>1</strong></td><td>صندوق السباكة</td><td>Flask</td><td>الإطار المعدني أو الخشبي الحاضن لرمل التشكيل، ويتكون من نصفين (علوي وسفلي).</td></tr>
+                                <tr><td><strong>3</strong></td><td>تجويف القالب</td><td>Mold Cavity</td><td>الفراغ الداخلي المتروك بعد سحب النموذج، والذي يملؤه المعدن المنصهر لتكوين شكل المنتج.</td></tr>
+                                <tr><td><strong>4</strong></td><td>لوح القاعدة</td><td>Bottom Board</td><td>اللوح السفلي المستوي الذي يرتكز عليه صندوق السباكة بالكامل لحمل الرمل والمعدن.</td></tr>
+                                <tr><td><strong>5</strong></td><td>النصف السفلي للقالب الرملي</td><td>Drag</td><td>الجزء السفلي من القالب الرملي الملامس للوح القاعدة.</td></tr>
+                                <tr><td><strong>6</strong></td><td>الدليك (القلب الرملي)</td><td>Core</td><td>كتلة رملية متماسكة توضع داخل القالب لتكوين التجاويف والثقوب الداخلية للمسبوكات المجوفة.</td></tr>
+                                <tr><td><strong>7</strong></td><td>خط الانفصال (ومشابك التثبيت)</td><td>Parting Line (Clamps)</td><td>المستوى الفاصل بين نصفي القالب العلوي والسفلي، وتوجد عنده بنوز ومشابك المحاذاة.</td></tr>
+                                <tr><td><strong>8</strong></td><td>النصف العلوي للقالب الرملي</td><td>Cope</td><td>الجزء العلوي من القالب الرملي الذي يحتوي على فتحات الصب والمغذيات.</td></tr>
+                                <tr><td><strong>9</strong></td><td>المغذي (المصعد)</td><td>Riser</td><td>خزان للمعدن المنصهر يعوض انكماش المعدن أثناء التجمد ويسمح بخروج الغازات والأوساخ.</td></tr>
+                                <tr><td><strong>11</strong></td><td>مصب المعدن (المجرى النازل)</td><td>Sprue (Downsprue)</td><td>القناة الرأسية التي يُصب فيها المعدن المنصهر من الخارج ليصل إلى مجاري التغذية ثم التجويف.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-        <!-- القسم الثاني: السباكة والنماذج والطرد المركزي -->
-        <section id="casting-details">
-            <h2>2. الشرح التفصيلي لسباكة المعادن (Casting of Metals)</h2>
-            
-            <h3>أ. مفهوم السباكة ومدى استخدامها</h3>
-            <p><strong>السباكة (Casting):</strong> هي عملية تشكيل للمعادن في <strong>خطوة واحدة</strong> عن طريق صهر المعدن وصبه في قالب به فجوة (Cavity) تطابق أبعاد المنتج المطلوب. تتراوح أوزان المسبوكات من <strong>بضعة جرامات</strong> (مثل أسنان سوستة الملابس) إلى <strong>عدة أطنان</strong> (مثل ريش التربينات الكبيرة وأجسام الماكينات).</p>
+                <div class="en-content">
+                    <p>Based on the approved engineering drawing of the sand mold, all numbers have been verified to match their exact positions:</p>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Part Name (English)</th>
+                                    <th>Part Name (Arabic)</th>
+                                    <th>Detailed Engineering Function</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>1</strong></td><td>Flask</td><td>صندوق السباكة</td><td>The metal or wooden frame containing the molding sand, consisting of two halves (cope and drag).</td></tr>
+                                <tr><td><strong>3</strong></td><td>Mold Cavity</td><td>تجويف القالب</td><td>The internal void left after withdrawing the pattern, filled by molten metal to form the product shape.</td></tr>
+                                <tr><td><strong>4</strong></td><td>Bottom Board</td><td>لوح القاعدة</td><td>The flat bottom board on which the entire flask rests to support sand and metal.</td></tr>
+                                <tr><td><strong>5</strong></td><td>Drag</td><td>النصف السفلي</td><td>The lower half of the sand mold in contact with the bottom board.</td></tr>
+                                <tr><td><strong>6</strong></td><td>Core</td><td>الدليك</td><td>A bonded sand mass placed inside the mold to form internal cavities and holes in hollow castings.</td></tr>
+                                <tr><td><strong>7</strong></td><td>Parting Line (Clamps)</td><td>خط الانفصال</td><td>The separating plane between the upper and lower mold halves, with alignment pins and clamps.</td></tr>
+                                <tr><td><strong>8</strong></td><td>Cope</td><td>النصف العلوي</td><td>The upper half of the sand mold containing the pouring basin and risers.</td></tr>
+                                <tr><td><strong>9</strong></td><td>Riser</td><td>المغذي</td><td>A reservoir of molten metal that compensates for shrinkage during solidification and allows gases to escape.</td></tr>
+                                <tr><td><strong>11</strong></td><td>Sprue (Downsprue)</td><td>مصب المعدن</td><td>The vertical channel through which molten metal is poured from outside to reach the ingates and cavity.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
-            <h3>ب. النماذج (Patterns / الأورنيك) وخاماتها وصفاتها</h3>
-            <p>يُسمى النموذج أيضاً <strong>بالأورنيك</strong>، ويُصنع مطابقاً للشكل الخارجي للمنتج لكنه <strong>مُصمت (غير مجوف)</strong>. وتُختار خامته حسب عدد القطع المطلوب إنتاجها:</p>
-            <div class="grid-2">
-                <div class="info-card">
-                    <h4>خامات النماذج حسب حجم الإنتاج</h4>
+            <!-- القسم الثاني -->
+            <section id="casting-details">
+                <h2 class="ar-content">2. الشرح التفصيلي لسباكة المعادن (Casting of Metals)</h2>
+                <h2 class="en-content">2. Detailed Explanation of Metal Casting</h2>
+
+                <!-- المحتوى العربي -->
+                <div class="ar-content">
+                    <h3>أ. مفهوم السباكة ومدى استخدامها</h3>
+                    <p><strong>السباكة (Casting):</strong> هي عملية تشكيل للمعادن في <strong>خطوة واحدة</strong> عن طريق صهر المعدن وصبه في قالب به فجوة (Cavity) تطابق أبعاد المنتج المطلوب. تتراوح أوزان المسبوكات من <strong>بضعة جرامات</strong> (مثل أسنان سوستة الملابس) إلى <strong>عدة أطنان</strong> (مثل ريش التربينات الكبيرة وأجسام الماكينات).</p>
+
+                    <div class="note-box">
+                        <strong>ملاحظة هامة:</strong> تُعد السباكة من أقدم عمليات التصنيع، وتتميز بقدرتها على إنتاج أشكال معقدة داخلية وخارجية يصعب تشكيلها بطرق أخرى. كما أنها مناسبة لجميع أنواع المعادن تقريباً (حديد زهر، صلب، ألومنيوم، نحاس...).
+                    </div>
+
+                    <h3>ب. النماذج (Patterns / الأورنيك) وخاماتها وصفاتها</h3>
+                    <p>يُسمى النموذج أيضاً <strong>بالأورنيك</strong>، ويُصنع مطابقاً للشكل الخارجي للمنتج لكنه <strong>مُصمت (غير مجوف)</strong>. وتُختار خامته حسب عدد القطع المطلوب إنتاجها:</p>
+                    <div class="grid-2">
+                        <div class="info-card">
+                            <h4>خامات النماذج حسب حجم الإنتاج</h4>
+                            <ul>
+                                <li><strong>خشب الصنوبر الأبيض:</strong> يُستخدم عندما لا يزيد العدد المطلوب سباكته عن <strong>30 قطعة</strong>.</li>
+                                <li><strong>الأخشاب الصلدة (الماهوجني، البلوط، الزان):</strong> تُستخدم عند تجهيز نحو <strong>100 قالب تقريباً</strong>.</li>
+                                <li><strong>النماذج المعدنية (الألومنيوم غالباً):</strong> تُستخدم في حالة <strong>الإنتاج الكمي (بالجملة)</strong> لتحملها وعدم تآكلها.</li>
+                            </ul>
+                        </div>
+                        <div class="info-card">
+                            <h4>الصفات الست الواجب توافرها في النموذج</h4>
+                            <ol>
+                                <li><strong>سماح الانكماش:</strong> زيادة طفيفة في الأبعاد لتعويض تقلص المعدن عند التبريد.</li>
+                                <li><strong>سماح التشغيل:</strong> زيادة للأسطح التي ستُشطب بالقطع الميكانيكي لاحقاً.</li>
+                                <li><strong>السلبية (Draft):</strong> ميل طفيف في الجدران الرأسية لتسهيل سحب النموذج دون تهشيم الرمل.</li>
+                                <li><strong>ركائز الدليك (Core Prints):</strong> زوائد على النموذج تترك تجاويف لتثبيت طرفي الدليك ومنعه من الحركة.</li>
+                                <li><strong>تدوير الأركان:</strong> لمنع تركيز الإجهادات وتحسين سريان المعدن.</li>
+                                <li><strong>سطح الانفصال:</strong> تحديد مستوى فصل النموذج لتسهيل إخراجه.</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <h3>ج. مقارنة بين قوالب الرمل الأخضر وقوالب الرمل الجاف</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>وجه المقارنة</th><th>قوالب الرمل الأخضر (Green-Sand)</th><th>قوالب الرمل الجاف (Dry-Sand)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>المكونات والتحضير</strong></td><td><strong>90% رمل</strong> + <strong>8% طمي (Clay)</strong> + <strong>2% ماء</strong> (يُستخدم رطباً دون تجفيف).</td><td>رمل نظيف + <strong>زيت أو مولاس</strong> كمادة رابطة + قليل من الماء، ويُجفف لمدة <strong>ساعتين</strong> عند حرارة <strong>180 – 220°م</strong>.</td></tr>
+                                <tr><td><strong>الخصائص</strong></td><td>اقتصادي ويُعاد تجهيزه بالطحن والنخل وإضافة <strong>30% رمل جديد</strong> وطمي وماء.</td><td>تماسك عالٍ جداً أثناء الصب و<strong>عدم تكون غازات</strong> لخلوه تماماً من الرطوبة.</td></tr>
+                                <tr><td><strong>الاستخدام الشائع</strong></td><td>شائع الاستخدام في <strong>مسابك الحديد الزهر</strong>.</td><td>يُستخدم بصفة أساسية في <strong>مسابك الصلب</strong>.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>د. السباكة بالطرد المركزي (Centrifugal Casting)</h3>
+                    <p>تعتمد على دوران القالب بسرعة عالية لتوزيع المعدن المنصهر نحو الجدران بقوة الطرد المركزي، مما ينتج مسبوكات <strong>خالية من العيوب والشوائب والفقاعات</strong> (لأن الشوائب الأخف تتجمع في المركز)، ولكن يعيبها محدودية الشكل والحجم.</p>
                     <ul>
-                        <li><strong>خشب الصنوبر الأبيض:</strong> يُستخدم عندما لا يزيد العدد المطلوب سباكته عن <strong>30 قطعة</strong>.</li>
-                        <li><strong>الأخشاب الصلدة (الماهوجني، البلوط، الزان):</strong> تُستخدم عند تجهيز نحو <strong>100 قالب تقريباً</strong>.</li>
-                        <li><strong>النماذج المعدنية (الألومنيوم غالباً):</strong> تُستخدم في حالة <strong>الإنتاج الكمي (بالجملة)</strong> لتحملها وعدم تآكلها.</li>
+                        <li><strong>سباكة بقالب محور دورانه رأسي:</strong> تُستخدم لإنتاج الأجزاء القصيرة ذات الأقطار الكبيرة مثل <strong>التروس (المسننات)</strong>.</li>
+                        <li><strong>سباكة بقالب محور دورانه أفقي:</strong> تُستخدم لإنتاج <strong>الأنابيب والمواسير</strong> الطويلة مجوفةً بالكامل <strong>دون استخدام دليك (Core)</strong>.</li>
                     </ul>
+
+                    <div class="note-box">
+                        <strong>ملاحظة هندسية هامة في مسائل السباكة (مثل مسألة الماسورة المخروطية):</strong>
+                        عند حساب طول الدليك (Core)، يجب إضافة طول <strong>ركائز الدليك (Core Prints)</strong> من الجهتين إلى الطول الداخلي للمنتج (مثال: إذا كان ارتفاع التجويف 50 cm ولكل ركيزة 5 cm في الأعلى والأسفل، يصبح الطول الكلي للدليك 60 cm) لكي يرتكز بثبات داخل الرمل ولا يطفو أثناء صب المعدن المنصهر.
+                    </div>
                 </div>
-                <div class="info-card">
-                    <h4>الصفات الست الواجب توافرها في النموذج</h4>
+
+                <!-- المحتوى الإنجليزي -->
+                <div class="en-content">
+                    <h3>A. Concept of Casting and Its Range of Use</h3>
+                    <p><strong>Casting:</strong> A metal forming process completed in <strong>one step</strong> by melting the metal and pouring it into a mold with a cavity matching the required product dimensions. Casting weights range from <strong>a few grams</strong> (e.g., zipper teeth) to <strong>several tons</strong> (e.g., large turbine blades and machine frames).</p>
+
+                    <div class="note-box">
+                        <strong>Important Note:</strong> Casting is one of the oldest manufacturing processes. It is capable of producing complex internal and external shapes that are difficult to form by other methods. It is also suitable for almost all types of metals (cast iron, steel, aluminum, copper...).
+                    </div>
+
+                    <h3>B. Patterns, Their Materials, and Characteristics</h3>
+                    <p>The pattern (also called Ornek in Arabic workshops) is made to match the external shape of the product but is <strong>solid (not hollow)</strong>. Its material is chosen according to the required production quantity:</p>
+                    <div class="grid-2">
+                        <div class="info-card">
+                            <h4>Pattern Materials by Production Volume</h4>
+                            <ul>
+                                <li><strong>White pine wood:</strong> Used when the required number of castings does not exceed <strong>30 pieces</strong>.</li>
+                                <li><strong>Hardwoods (mahogany, oak, beech):</strong> Used for preparing about <strong>100 molds</strong>.</li>
+                                <li><strong>Metal patterns (mostly aluminum):</strong> Used in <strong>mass production</strong> due to their durability and wear resistance.</li>
+                            </ul>
+                        </div>
+                        <div class="info-card">
+                            <h4>Six Essential Pattern Characteristics</h4>
+                            <ol>
+                                <li><strong>Shrinkage allowance:</strong> A slight increase in dimensions to compensate for metal contraction during cooling.</li>
+                                <li><strong>Machining allowance:</strong> Extra material on surfaces to be machined later.</li>
+                                <li><strong>Draft:</strong> A slight taper on vertical walls to facilitate pattern withdrawal without damaging the sand.</li>
+                                <li><strong>Core prints:</strong> Protrusions on the pattern that leave recesses to support the core ends and prevent movement.</li>
+                                <li><strong>Filleted corners:</strong> To prevent stress concentration and improve metal flow.</li>
+                                <li><strong>Parting surface:</strong> Determines the separation plane for easy pattern removal.</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <h3>C. Comparison: Green Sand vs. Dry Sand Molds</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>Comparison Aspect</th><th>Green Sand Molds</th><th>Dry Sand Molds</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Composition & Preparation</strong></td><td><strong>90% sand</strong> + <strong>8% clay</strong> + <strong>2% water</strong> (used moist without drying).</td><td>Clean sand + <strong>oil or molasses</strong> as binder + little water, dried for <strong>2 hours</strong> at <strong>180–220°C</strong>.</td></tr>
+                                <tr><td><strong>Characteristics</strong></td><td>Economical, reconditioned by grinding, sieving, and adding <strong>30% new sand</strong>, clay, and water.</td><td>Very high strength during pouring and <strong>no gas formation</strong> due to complete absence of moisture.</td></tr>
+                                <tr><td><strong>Common Use</strong></td><td>Widely used in <strong>cast iron foundries</strong>.</td><td>Mainly used in <strong>steel foundries</strong>.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>D. Centrifugal Casting</h3>
+                    <p>It relies on rotating the mold at high speed to distribute molten metal toward the walls by centrifugal force, producing castings <strong>free from defects, impurities, and gas bubbles</strong> (since lighter impurities collect at the center). However, it is limited in shape and size.</p>
+                    <ul>
+                        <li><strong>Vertical-axis centrifugal casting:</strong> Used for short parts with large diameters such as <strong>gears</strong>.</li>
+                        <li><strong>Horizontal-axis centrifugal casting:</strong> Used for producing long <strong>pipes and tubes</strong>, completely hollow <strong>without using a core</strong>.</li>
+                    </ul>
+
+                    <div class="note-box">
+                        <strong>Important Engineering Note (e.g., conical pipe problem):</strong>
+                        When calculating the core length, the length of <strong>core prints</strong> on both sides must be added to the internal product length (e.g., if the cavity height is 50 cm and each core print is 5 cm at top and bottom, the total core length becomes 60 cm) so that it rests firmly inside the sand and does not float during molten metal pouring.
+                    </div>
+                </div>
+            </section>
+
+            <!-- القسم الثالث -->
+            <section id="extrusion-details">
+                <h2 class="ar-content">3. عملية البثق (Extrusion Process)</h2>
+                <h2 class="en-content">3. Extrusion Process</h2>
+
+                <div class="ar-content">
+                    <p><strong>التعريف:</strong> عملية تشكيل لدن تُدفع فيها كتلة معدنية (Billet) داخل حاوية (Container) بواسطة كباس (Ram) لتمر عبر فتحة اسطمبة (Die) فتأخذ شكل مقطعها. تُستخدم لإنتاج أجزاء طويلة ذات <strong>مقاطع عرضية منتظمة وثابتة</strong> (مثل قطاعات الألومنيوم، القضبان، والمواسير).</p>
+                    <p>تُبثق معظم المعادن <strong>على الساخن (Hot Extrusion)</strong> لتقليل مقاومة المعدن وخفض القوى الكبيرة المطلوبة للتشكيل.</p>
+
+                    <h3>أ. مقارنة بين البثق المباشر والبثق غير المباشر</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>وجه المقارنة</th><th>البثق المباشر (Direct Extrusion)</th><th>البثق غير المباشر (Indirect Extrusion)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>اتجاه حركة المعدن</strong></td><td>يتحرك المعدن المنبثق في <strong>نفس اتجاه</strong> حركة الكباس (Ram).</td><td>يتحرك المعدن المنبثق في <strong>عكس اتجاه</strong> حركة الكباس.</td></tr>
+                                <tr><td><strong>موقع الاسطمبة (Die)</strong></td><td>مثبتة في نهاية الحاوية (Container).</td><td>مثبتة في مقدمة الكباس المجوف نفسه.</td></tr>
+                                <tr><td><strong>الاحتكاك والقوة</strong></td><td><strong>عالية جداً</strong> بسبب احتكاك كتلة المعدن (Billet) بجدران الحاوية.</td><td><strong>أقل بكثير</strong> لعدم وجود حركة نسبية بين الكتلة وجدران الحاوية (نهايتها مغلقة بلوح غلق).</td></tr>
+                                <tr><td><strong>تصميم المعدات</strong></td><td>أبسط وأكثر شيوعاً.</td><td>أكثر تعقيداً لأن الكباس يجب أن يكون مجوفاً ليمر المنتج من داخله.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>ب. البثق بالصدم (Impact Extrusion)</h3>
+                    <p>تُوضع قطعة معدنية صغيرة (قرص) من معدن طري (مثل الألومنيوم أو الرصاص) في اسطمبة، ثم ينزل <strong>المكبس (Punch)</strong> بسرعة عالية جداً وصدمة قوية، فيتدفق المعدن <strong>إلى الأعلى</strong> في الفراغ الحلقي المحيط بالمكبس (عكس اتجاه الكبس) مكوناً جدراناً رقيقة. تُجرى <strong>على البارد</strong> لإنتاج أنابيب معجون الأسنان وعلب المشروبات الغازية.</p>
+
+                    <div class="note-box">
+                        <strong>ملاحظة إضافية:</strong> البثق بالصدم هو نوع من البثق غير المباشر، ويُستخدم بشكل واسع في صناعة العبوات المعدنية الخفيفة. يتميز بسرعة الإنتاج العالية وانخفاض تكلفة العدة، لكنه يتطلب معادن عالية اللدونة.
+                    </div>
+                </div>
+
+                <div class="en-content">
+                    <p><strong>Definition:</strong> A plastic forming process in which a metal billet is pushed inside a container by a ram to pass through a die opening, taking the shape of its cross-section. It is used to produce long parts with <strong>constant and uniform cross-sections</strong> (such as aluminum profiles, rods, and tubes).</p>
+                    <p>Most metals are extruded <strong>hot</strong> to reduce metal resistance and lower the large forces required for forming.</p>
+
+                    <h3>A. Direct Extrusion vs. Indirect Extrusion</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>Comparison Aspect</th><th>Direct Extrusion</th><th>Indirect Extrusion</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Metal movement direction</strong></td><td>The extruded metal moves in <strong>the same direction</strong> as the ram.</td><td>The extruded metal moves in <strong>the opposite direction</strong> to the ram.</td></tr>
+                                <tr><td><strong>Die location</strong></td><td>Fixed at the end of the container.</td><td>Fixed at the front of the hollow ram itself.</td></tr>
+                                <tr><td><strong>Friction and force</strong></td><td><strong>Very high</strong> due to friction between the billet and container walls.</td><td><strong>Much lower</strong> due to no relative motion between the billet and container walls (end closed by a closure plate).</td></tr>
+                                <tr><td><strong>Equipment design</strong></td><td>Simpler and more common.</td><td>More complex because the ram must be hollow for the product to pass through.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>B. Impact Extrusion</h3>
+                    <p>A small metal piece (disc) of a soft metal (such as aluminum or lead) is placed in a die, then the <strong>punch</strong> descends at very high speed with a strong impact, causing the metal to flow <strong>upward</strong> into the annular space around the punch (opposite to the pressing direction), forming thin walls. It is performed <strong>cold</strong> to produce toothpaste tubes and beverage cans.</p>
+
+                    <div class="note-box">
+                        <strong>Additional Note:</strong> Impact extrusion is a type of indirect extrusion widely used in the light metal packaging industry. It features high production speed and low tooling cost but requires metals with high ductility.
+                    </div>
+                </div>
+            </section>
+
+            <!-- القسم الرابع -->
+            <section id="rolling-details">
+                <h2 class="ar-content">4. درفلة المعادن (Rolling of Metals)</h2>
+                <h2 class="en-content">4. Metal Rolling</h2>
+
+                <div class="ar-content">
+                    <p><strong>التعريف:</strong> عملية تشكيل لدن يتم فيها <strong>تقليل سمك المشغولة</strong> عبر ضغطها بقوى انضغاط بين <strong>درفيلين (Rollers)</strong> يدوران في اتجاهين متعاكسين. يؤدي الاحتكاك بين الدرافيل والمعدن إلى سحبه واستمرار مروره، فينخفض سمكه ويزداد طوله.</p>
+                    <p>تُستخدم <strong>الدرفلة على البارد</strong> غالباً في <strong>المراحل النهائية</strong> للحصول على <strong>جودة سطح عالية</strong> و<strong>دقة في المقاسات</strong>.</p>
+
+                    <h3>أ. المنتجات الأولية والمنتجات النهائية للدرفلة</h3>
+                    <ul>
+                        <li><strong>البلاطات (Slabs):</strong> ذات مقطع مستطيل عريض، وتُدرفل لإنتاج الألواح والصفائح (Plates & Sheets) واللفائف (Coils).</li>
+                        <li><strong>الكتل / البلوم (Blooms):</strong> ذات مقطع مربع كبير، وتُدرفل لإنتاج القطاعات الإنشائية (Structural shapes مثل حرف I و T) وقضبان السكك الحديدية (Rails).</li>
+                        <li><strong>العروق / البيلت (Billets):</strong> ذات مقطع مربع أصغر، وتُدرفل لإنتاج القضبان والأسياخ (Bars & Rods) والأسلاك (Wire Rods).</li>
+                    </ul>
+
+                    <h3>ب. أنواع ماكينات الدرفلة (Rolling Mills)</h3>
                     <ol>
-                        <li><strong>سماح الانكماش:</strong> زيادة طفيفة في الأبعاد لتعويض تقلص المعدن عند التبريد.</li>
-                        <li><strong>سماح التشغيل:</strong> زيادة للأسطح التي ستُشطب بالقطع الميكانيكي لاحقاً.</li>
-                        <li><strong>السلبية (Draft):</strong> ميل طفيف في الجدران الرأسية لتسهيل سحب النموذج دون تهشيم الرمل.</li>
-                        <li><strong>ركائز الدليك (Core Prints):</strong> زوائد على النموذج تترك تجاويف لتثبيت طرفي الدليك ومنعه من الحركة.</li>
-                        <li><strong>تدوير الأركان:</strong> لمنع تركيز الإجهادات وتحسين سريان المعدن.</li>
-                        <li><strong>سطح الانفصال:</strong> تحديد مستوى فصل النموذج لتسهيل إخراجه.</li>
+                        <li><strong>آلة درفلة ثنائية غير عكوسة (Two-High Non-Reversing):</strong> درفيلان يدوران في اتجاه واحد ثابت.</li>
+                        <li><strong>آلة درفلة ثنائية عكوسة (Two-High Reversing):</strong> درفيلان يمكن عكس دورانهما لتمرير المعدن ذهاباً وإياباً.</li>
+                        <li><strong>آلة درفلة ثلاثية الدرافيل (Three-High Mill):</strong> ثلاثة درافيل رأسية تسمح بتغذية المعدن من الجهتين في مرحلتين متتاليتين دون عكس دوران الدرافيل.</li>
+                        <li><strong>آلة درفلة رباعية الدرافيل (Four-High Mill):</strong> درفيلان صغيران للتشغيل (Work rolls) ودرفيلان كبيران للإسناد (Backing rolls) لمنع انحناء درافيل التشغيل.</li>
+                        <li><strong>آلة درفلة عنقودية (Cluster Mill):</strong> درفيلان صغيران جداً للتشغيل يُسند كل منهما بمجموعة من درافيل الإسناد، وتُستخدم في <strong>الدرفلة على البارد</strong> نظراً لكبر قوة الدرفلة المطلوبة.</li>
                     </ol>
-                </div>
-            </div>
 
-            <h3>ج. مقارنة بين قوالب الرمل الأخضر وقوالب الرمل الجاف</h3>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr><th>وجه المقارنة</th><th>قوالب الرمل الأخضر (Green-Sand)</th><th>قوالب الرمل الجاف (Dry-Sand)</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>المكونات والتحضير</strong></td><td><strong>90% رمل</strong> + <strong>8% طمي (Clay)</strong> + <strong>2% ماء</strong> (يُستخدم رطباً دون تجفيف).</td><td>رمل نظيف + <strong>زيت أو مولاس</strong> كمادة رابطة + قليل من الماء، ويُجفف لمدة <strong>ساعتين</strong> عند حرارة <strong>180 – 220°م</strong>.</td></tr>
-                        <tr><td><strong>الخصائص</strong></td><td>اقتصادي ويُعاد تجهيزه بالطحن والنخل وإضافة <strong>30% رمل جديد</strong> وطمي وماء.</td><td>تماسك عالٍ جداً أثناء الصب و<strong>عدم تكون غازات</strong> لخلوه تماماً من الرطوبة.</td></tr>
-                        <tr><td><strong>الاستخدام الشائع</strong></td><td>شائع الاستخدام في <strong>مسابك الحديد الزهر</strong>.</td><td>يُستخدم بصفة أساسية في <strong>مسابك الصلب</strong>.</td></tr>
-                    </tbody>
-                </table>
-            </div>
+                    <h3>ج. قوانين حسابات الدرفلة وأمثلة محلولة</h3>
+                    <div class="formula-box">
+                        <p><strong>1. قانون حفظ الحجم / التدفق (مع ثبات العرض):</strong></p>
+                        <div class="math-eq">V₁ × H₁ = V₂ × H₂</div>
+                        <p><strong>2. مقدار النقص في السمك (Reduction in Thickness):</strong></p>
+                        <div class="math-eq">ΔH = H₁ - H₂ = D × (1 - cos α)</div>
+                        <p><strong>3. النسبة المئوية للتخفيض في السمك:</strong></p>
+                        <div class="math-eq">% Reduction = [(H₁ - H₂) / H₁] × 100</div>
+                        <p style="font-size: 0.95rem; margin-top: 8px;">حيث: <strong>H₁</strong> السمك الابتدائي، <strong>H₂</strong> السمك النهائي، <strong>V₁</strong> السرعة الابتدائية، <strong>V₂</strong> السرعة النهائية، <strong>D</strong> قطر الدرفيل، <strong>α</strong> زاوية التلامس.</p>
+                    </div>
 
-            <h3>د. السباكة بالطرد المركزي (Centrifugal Casting)</h3>
-            <p>تعتمد على دوران القالب بسرعة عالية لتوزيع المعدن المنصهر نحو الجدران بقوة الطرد المركزي، مما ينتج مسبوكات <strong>خالية من العيوب والشوائب والفقاعات</strong> (لأن الشوائب الأخف تتجمع في المركز)، ولكن يعيبها محدودية الشكل والحجم.</p>
-            <ul>
-                <li><strong>سباكة بقالب محور دورانه رأسي:</strong> تُستخدم لإنتاج الأجزاء القصيرة ذات الأقطار الكبيرة مثل <strong>التروس (المسننات)</strong>.</li>
-                <li><strong>سباكة بقالب محور دورانه أفقي:</strong> تُستخدم لإنتاج <strong>الأنابيب والمواسير</strong> الطويلة مجوفةً بالكامل <strong>دون استخدام دليك (Core)</strong>.</li>
-            </ul>
-
-            <div class="note-box">
-                <strong>ملاحظة هندسية هامة في مسائل السباكة (مثل مسألة الماسورة المخروطية):</strong>
-                عند حساب طول الدليك (Core)، يجب إضافة طول <strong>ركائز الدليك (Core Prints)</strong> من الجهتين إلى الطول الداخلي للمنتج (مثال: إذا كان ارتفاع التجويف 50 cm ولكل ركيزة 5 cm في الأعلى والأسفل، يصبح الطول الكلي للدليك 60 cm) لكي يرتكز بثبات داخل الرمل ولا يطفو أثناء صب المعدن المنصهر.
-            </div>
-        </section>
-
-        <!-- القسم الثالث: عملية البثق -->
-        <section id="extrusion-details">
-            <h2>3. عملية البثق (Extrusion Process)</h2>
-            <p><strong>التعريف:</strong> عملية تشكيل لدن تُدفع فيها كتلة معدنية (Billet) داخل حاوية (Container) بواسطة كباس (Ram) لتمر عبر فتحة اسطمبة (Die) فتأخذ شكل مقطعها. تُستخدم لإنتاج أجزاء طويلة ذات <strong>مقاطع عرضية منتظمة وثابتة</strong> (مثل قطاعات الألومنيوم، القضبان، والمواسير).</p>
-            <p>تُبثق معظم المعادن <strong>على الساخن (Hot Extrusion)</strong> لتقليل مقاومة المعدن وخفض القوى الكبيرة المطلوبة للتشكيل.</p>
-
-            <h3>أ. مقارنة بين البثق المباشر والبثق غير المباشر</h3>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr><th>وجه المقارنة</th><th>البثق المباشر (Direct Extrusion)</th><th>البثق غير المباشر (Indirect Extrusion)</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>اتجاه حركة المعدن</strong></td><td>يتحرك المعدن المنبثق في <strong>نفس اتجاه</strong> حركة الكباس (Ram).</td><td>يتحرك المعدن المنبثق في <strong>عكس اتجاه</strong> حركة الكباس.</td></tr>
-                        <tr><td><strong>موقع الاسطمبة (Die)</strong></td><td>مثبتة في نهاية الحاوية (Container).</td><td>مثبتة في مقدمة الكباس المجوف نفسه.</td></tr>
-                        <tr><td><strong>الاحتكاك والقوة</strong></td><td><strong>عالية جداً</strong> بسبب احتكاك كتلة المعدن (Billet) بجدران الحاوية.</td><td><strong>أقل بكثير</strong> لعدم وجود حركة نسبية بين الكتلة وجدران الحاوية (نهايتها مغلقة بلوح غلق).</td></tr>
-                        <tr><td><strong>تصميم المعدات</strong></td><td>أبسط وأكثر شيوعاً.</td><td>أكثر تعقيداً لأن الكباس يجب أن يكون مجوفاً ليمر المنتج من داخله.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3>ب. البثق بالصدم (Impact Extrusion)</h3>
-            <p>تُوضع قطعة معدنية صغيرة (قرص) من معدن طري (مثل الألومنيوم أو الرصاص) في اسطمبة، ثم ينزل <strong>المكبس (Punch)</strong> بسرعة عالية جداً وصدمة قوية، فيتدفق المعدن <strong>إلى الأعلى</strong> في الفراغ الحلقي المحيط بالمكبس (عكس اتجاه الكبس) مكوناً جدراناً رقيقة. تُجرى <strong>على البارد</strong> لإنتاج أنابيب معجون الأسنان وعلب المشروبات الغازية.</p>
-        </section>
-
-        <!-- القسم الرابع: درفلة المعادن والقوانين -->
-        <section id="rolling-details">
-            <h2>4. درفلة المعادن (Rolling of Metals)</h2>
-            <p><strong>التعريف:</strong> عملية تشكيل لدن يتم فيها <strong>تقليل سمك المشغولة</strong> عبر ضغطها بقوى انضغاط بين <strong>درفيلين (Rollers)</strong> يدوران في اتجاهين متعاكسين. يؤدي الاحتكاك بين الدرافيل والمعدن إلى سحبه واستمرار مروره، فينخفض سمكه ويزداد طوله.</p>
-            <p>تُستخدم <strong>الدرفلة على البارد</strong> غالباً في <strong>المراحل النهائية</strong> للحصول على <strong>جودة سطح عالية</strong> و<strong>دقة في المقاسات</strong>.</p>
-
-            <h3>أ. المنتجات الأولية والمنتجات النهائية للدرفلة</h3>
-            <ul>
-                <li><strong>البلاطات (Slabs):</strong> ذات مقطع مستطيل عريض، وتُدرفل لإنتاج الألواح والصفائح (Plates & Sheets) واللفائف (Coils).</li>
-                <li><strong>الكتل / البلوم (Blooms):</strong> ذات مقطع مربع كبير، وتُدرفل لإنتاج القطاعات الإنشائية (Structural shapes مثل حرف I و T) وقضبان السكك الحديدية (Rails).</li>
-                <li><strong>العروق / البيلت (Billets):</strong> ذات مقطع مربع أصغر، وتُدرفل لإنتاج القضبان والأسياخ (Bars & Rods) والأسلاك (Wire Rods).</li>
-            </ul>
-
-            <h3>ب. أنواع ماكينات الدرفلة (Rolling Mills)</h3>
-            <ol>
-                <li><strong>آلة درفلة ثنائية غير عكوسة (Two-High Non-Reversing):</strong> درفيلان يدوران في اتجاه واحد ثابت.</li>
-                <li><strong>آلة درفلة ثنائية عكوسة (Two-High Reversing):</strong> درفيلان يمكن عكس دورانهما لتمرير المعدن ذهاباً وإياباً.</li>
-                <li><strong>آلة درفلة ثلاثية الدرافيل (Three-High Mill):</strong> ثلاثة درافيل رأسية تسمح بتغذية المعدن من الجهتين في مرحلتين متتاليتين دون عكس دوران الدرافيل.</li>
-                <li><strong>آلة درفلة رباعية الدرافيل (Four-High Mill):</strong> درفيلان صغيران للتشغيل (Work rolls) ودرفيلان كبيران للإسناد (Backing rolls) لمنع انحناء درافيل التشغيل.</li>
-                <li><strong>آلة درفلة عنقودية (Cluster Mill):</strong> درفيلان صغيران جداً للتشغيل يُسند كل منهما بمجموعة من درافيل الإسناد، وتُستخدم في <strong>الدرفلة على البارد</strong> نظراً لكبر قوة الدرفلة المطلوبة.</li>
-            </ol>
-
-            <h3>ج. قوانين حسابات الدرفلة وأمثلة محلولة</h3>
-            <div class="formula-box">
-                <p><strong>1. قانون حفظ الحجم / التدفق (مع ثبات العرض):</strong></p>
-                <div class="math-eq">V₁ × H₁ = V₂ × H₂</div>
-                <p><strong>2. مقدار النقص في السمك (Reduction in Thickness):</strong></p>
-                <div class="math-eq">ΔH = H₁ - H₂ = D × (1 - cos α)</div>
-                <p><strong>3. النسبة المئوية للتخفيض في السمك:</strong></p>
-                <div class="math-eq">% Reduction = [(H₁ - H₂) / H₁] × 100</div>
-                <p style="font-size: 0.95rem; margin-top: 8px;">حيث: <strong>H₁</strong> السمك الابتدائي، <strong>H₂</strong> السمك النهائي، <strong>V₁</strong> السرعة الابتدائية، <strong>V₂</strong> السرعة النهائية، <strong>D</strong> قطر الدرفيل، <strong>α</strong> زاوية التلامس.</p>
-            </div>
-
-            <div class="grid-2">
-                <div class="qa-box">
-                    <h4>مثال محلول (1) - حساب نسبة التخفيض من السرعات:</h4>
-                    <p><strong>المسألة:</strong> في درفلة رقائق الألومنيوم، السمك الابتدائي H₁ = 1.2 mm والسرعة الابتدائية V₁ = 10 m/s والسرعة النهائية V₂ = 25 m/s. احسب نسبة التخفيض.<br>
-                    <strong>الحل:</strong><br>
-                    1) 10 × 1.2 = 25 × H₂ → H₂ = 12 / 25 = 0.48 mm<br>
-                    2) نسبة التخفيض = (1.2 - 0.48) / 1.2 × 100 = <strong>60%</strong></p>
-                </div>
-                <div class="qa-box">
-                    <h4>مثال محلول (2) - حساب النقص في السمك من زاوية التلامس:</h4>
-                    <p><strong>المسألة:</strong> عملية درفلة زاوية التلامس فيها α = 10° وقطر الدرفيل D = 300 mm. أوجد النقص في السمك (ΔH).<br>
-                    <strong>الحل:</strong><br>
-                    ΔH = D (1 - cos α) = 300 × (1 - cos 10°)<br>
-                    ΔH = 300 × (1 - 0.9848) = <strong>4.56 mm</strong></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- القسم الخامس: الملخص النهائي -->
-        <section id="summary-section">
-            <h2>5. الملخص النهائي الشامل (Final Summary)</h2>
-
-            <div class="info-card" style="border-top-color: var(--accent); margin-bottom: 1.5rem;">
-                <h4>🔩 أولاً: السباكة (Casting)</h4>
-                <ul>
-                    <li><strong>تعريف:</strong> تشكيل المعادن في خطوة واحدة بصهر المعدن وصبه في قالب.</li>
-                    <li><strong>النموذج (Pattern/أورنيك):</strong> مصمت، يُصنع من خشب الصنوبر (≤30 قطعة)، الأخشاب الصلدة (~100 قالب)، أو معدن (إنتاج كمي).</li>
-                    <li><strong>صفات النموذج الست:</strong> سماح انكماش، سماح تشغيل، سلبية (Draft)، ركائز دليك، تدوير أركان، سطح انفصال.</li>
-                    <li><strong>الرمل الأخضر:</strong> 90% رمل + 8% طمي + 2% ماء ← الحديد الزهر. يُعاد تجهيزه بإضافة 30% رمل جديد.</li>
-                    <li><strong>الرمل الجاف:</strong> رمل + زيت/مولاس، يُجفف ساعتين عند 180–220°م ← الصلب (لا غازات).</li>
-                    <li><strong>الطرد المركزي:</strong> محور رأسي ← تروس؛ محور أفقي ← مواسير طويلة دون دليك.</li>
-                    <li><strong>أجزاء القالب:</strong> Flask(1)، Cavity(3)، Bottom Board(4)، Drag(5)، Core(6)، Parting Line(7)، Cope(8)، Riser(9)، Sprue(11).</li>
-                </ul>
-            </div>
-
-            <div class="info-card" style="border-top-color: var(--secondary); margin-bottom: 1.5rem;">
-                <h4>🔨 ثانياً: البثق (Extrusion)</h4>
-                <ul>
-                    <li><strong>تعريف:</strong> دفع كتلة معدنية عبر اسطمبة لإنتاج أجزاء طويلة بمقطع ثابت.</li>
-                    <li><strong>مباشر:</strong> المعدن يتحرك مع الكباس، احتكاك وقوة عالية، اسطمبة في نهاية الحاوية.</li>
-                    <li><strong>غير مباشر:</strong> المعدن يتحرك عكس الكباس، احتكاك أقل، اسطمبة في مقدمة الكباس المجوف.</li>
-                    <li><strong>بالصدم (Impact):</strong> على البارد، يتدفق المعدن لأعلى حول المكبس ← أنابيب معجون الأسنان وعلب المشروبات.</li>
-                </ul>
-            </div>
-
-            <div class="info-card" style="border-top-color: var(--info-border);">
-                <h4>⚙️ ثالثاً: الدرفلة (Rolling)</h4>
-                <ul>
-                    <li><strong>تعريف:</strong> تقليل السمك بين درفيلين متعاكسين، يزداد الطول.</li>
-                    <li><strong>المنتجات الأولية:</strong> Slabs ← ألواح وصفائح؛ Blooms ← قطاعات إنشائية وسكك حديدية؛ Billets ← قضبان وأسياخ وأسلاك.</li>
-                    <li><strong>الماكينات:</strong> ثنائية (عادية/عكوسة)، ثلاثية (تمرير ذهاباً وإياباً)، رباعية (درفيلا تشغيل + درفيلا إسناد)، عنقودية (للدرفلة على البارد).</li>
-                    <li><strong>القوانين:</strong> V₁H₁ = V₂H₂ ، ΔH = D(1 - cos α) ، %Reduction = [(H₁-H₂)/H₁]×100.</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- القسم السادس: الخريطة الذهنية -->
-        <section id="mindmap-section">
-            <h2>6. الخريطة الذهنية الشاملة (Mind Map)</h2>
-            <div class="mindmap-container">
-                <div class="mindmap">
-                    <div class="mindmap-root">هندسة الإنتاج وعمليات التصنيع</div>
-                    <div class="mindmap-branches">
-                        <div class="mindmap-branch">
-                            <div class="mindmap-node">السباكة</div>
-                            <div class="mindmap-leaf">النموذج (Pattern)</div>
-                            <div class="mindmap-leaf">الرمل الأخضر / الجاف</div>
-                            <div class="mindmap-leaf">الطرد المركزي</div>
-                            <div class="mindmap-leaf">أجزاء القالب</div>
+                    <div class="grid-2">
+                        <div class="qa-box">
+                            <h4>مثال محلول (1) - حساب نسبة التخفيض من السرعات:</h4>
+                            <p><strong>المسألة:</strong> في درفلة رقائق الألومنيوم، السمك الابتدائي H₁ = 1.2 mm والسرعة الابتدائية V₁ = 10 m/s والسرعة النهائية V₂ = 25 m/s. احسب نسبة التخفيض.<br>
+                            <strong>الحل:</strong><br>
+                            1) 10 × 1.2 = 25 × H₂ → H₂ = 12 / 25 = 0.48 mm<br>
+                            2) نسبة التخفيض = (1.2 - 0.48) / 1.2 × 100 = <strong>60%</strong></p>
                         </div>
-                        <div class="mindmap-branch">
-                            <div class="mindmap-node">البثق</div>
-                            <div class="mindmap-leaf">مباشر / غير مباشر</div>
-                            <div class="mindmap-leaf">بالصدم</div>
-                            <div class="mindmap-leaf">تطبيقات الألومنيوم</div>
-                        </div>
-                        <div class="mindmap-branch">
-                            <div class="mindmap-node">الدرفلة</div>
-                            <div class="mindmap-leaf">المنتجات الأولية</div>
-                            <div class="mindmap-leaf">أنواع الماكينات</div>
-                            <div class="mindmap-leaf">قوانين الحساب</div>
+                        <div class="qa-box">
+                            <h4>مثال محلول (2) - حساب النقص في السمك من زاوية التلامس:</h4>
+                            <p><strong>المسألة:</strong> عملية درفلة زاوية التلامس فيها α = 10° وقطر الدرفيل D = 300 mm. أوجد النقص في السمك (ΔH).<br>
+                            <strong>الحل:</strong><br>
+                            ΔH = D (1 - cos α) = 300 × (1 - cos 10°)<br>
+                            ΔH = 300 × (1 - 0.9848) = <strong>4.56 mm</strong></p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- القسم السابع: بنك الأسئلة -->
-        <section id="qa-bank">
-            <h2>7. بنك الأسئلة والأجوبة النموذجية للمراجعة السريعة</h2>
+                <div class="en-content">
+                    <p><strong>Definition:</strong> A plastic forming process in which the <strong>workpiece thickness is reduced</strong> by compressing it between <strong>two rolls</strong> rotating in opposite directions. Friction between the rolls and the metal draws it in and continues its passage, decreasing its thickness and increasing its length.</p>
+                    <p><strong>Cold rolling</strong> is often used in <strong>final stages</strong> to obtain <strong>high surface quality</strong> and <strong>dimensional accuracy</strong>.</p>
 
-            <div class="qa-box">
-                <h4>س1: لماذا لا يُستخدم الحديد الغفل / تماسيح الحديد (Pig Iron) مباشرة في التطبيقات الهندسية؟</h4>
-                <p>ج: لأنه هش وضعيف لارتفاع نسبة الكربون فيه (حوالي 4%) واحتوائه على نسبة عالية من الشوائب كالكبريت والفسفور.</p>
-            </div>
+                    <h3>A. Primary and Final Rolled Products</h3>
+                    <ul>
+                        <li><strong>Slabs:</strong> Wide rectangular cross-section, rolled to produce plates, sheets, and coils.</li>
+                        <li><strong>Blooms:</strong> Large square cross-section, rolled to produce structural shapes (I-beams, T-beams) and railway rails.</li>
+                        <li><strong>Billets:</strong> Smaller square cross-section, rolled to produce bars, rods, and wire rods.</li>
+                    </ul>
 
-            <div class="qa-box">
-                <h4>س2: ما هي الخواص الميكانيكية والتكنولوجية الثلاث الحاكمة لاختيار أسلوب التصنيع؟</h4>
-                <p>ج: الانصهارية (Fusibility) للسباكة، اللدونة (Plasticity)، والممطولية (Ductility) للتشكيل اللدن كالدرفلة والبثق.</p>
-            </div>
+                    <h3>B. Types of Rolling Mills</h3>
+                    <ol>
+                        <li><strong>Two-High Non-Reversing Mill:</strong> Two rolls rotating in one fixed direction.</li>
+                        <li><strong>Two-High Reversing Mill:</strong> Two rolls whose rotation can be reversed to pass the metal back and forth.</li>
+                        <li><strong>Three-High Mill:</strong> Three vertical rolls allowing metal feeding from both sides in two successive passes without reversing roll rotation.</li>
+                        <li><strong>Four-High Mill:</strong> Two small work rolls and two large backing rolls to prevent work roll bending.</li>
+                        <li><strong>Cluster Mill:</strong> Very small work rolls each supported by a group of backing rolls, used in <strong>cold rolling</strong> due to the large rolling force required.</li>
+                    </ol>
 
-            <div class="qa-box">
-                <h4>س3: لماذا يكون الاحتكاك أقل في البثق غير المباشر مقارنة بالبثق المباشر؟</h4>
-                <p>ج: لعدم وجود حركة نسبية بين كتلة المعدن (Billet) وجدران الحاوية، حيث تكون نهاية الحاوية مغلقة بلوح غلق وتتحرك الاسطمبة المثبتة على الكباس المجوف نحو الكتلة.</p>
-            </div>
+                    <h3>C. Rolling Calculation Laws and Solved Examples</h3>
+                    <div class="formula-box">
+                        <p><strong>1. Volume / Flow Conservation Law (constant width):</strong></p>
+                        <div class="math-eq">V₁ × H₁ = V₂ × H₂</div>
+                        <p><strong>2. Reduction in Thickness:</strong></p>
+                        <div class="math-eq">ΔH = H₁ - H₂ = D × (1 - cos α)</div>
+                        <p><strong>3. Percentage Reduction in Thickness:</strong></p>
+                        <div class="math-eq">% Reduction = [(H₁ - H₂) / H₁] × 100</div>
+                        <p style="font-size: 0.95rem; margin-top: 8px;">Where: <strong>H₁</strong> initial thickness, <strong>H₂</strong> final thickness, <strong>V₁</strong> initial speed, <strong>V₂</strong> final speed, <strong>D</strong> roll diameter, <strong>α</strong> contact angle.</p>
+                    </div>
 
-            <div class="qa-box">
-                <h4>س4: ما وظيفة درافيل الإسناد (Backing Rolls) في ماكينات الدرفلة الرباعية والعنقودية؟</h4>
-                <p>ج: إسناد درافيل التشغيل ذات القطر الصغير ومنع انحنائها أو تقوسها تحت تأثير قوى الدرفلة العالية، خاصة في الدرفلة على البارد.</p>
-            </div>
+                    <div class="grid-2">
+                        <div class="qa-box">
+                            <h4>Solved Example (1) - Reduction Percentage from Speeds:</h4>
+                            <p><strong>Problem:</strong> In aluminum foil rolling, initial thickness H₁ = 1.2 mm, initial speed V₁ = 10 m/s, final speed V₂ = 25 m/s. Calculate the reduction percentage.<br>
+                            <strong>Solution:</strong><br>
+                            1) 10 × 1.2 = 25 × H₂ → H₂ = 12 / 25 = 0.48 mm<br>
+                            2) Reduction % = (1.2 - 0.48) / 1.2 × 100 = <strong>60%</strong></p>
+                        </div>
+                        <div class="qa-box">
+                            <h4>Solved Example (2) - Thickness Reduction from Contact Angle:</h4>
+                            <p><strong>Problem:</strong> A rolling process with contact angle α = 10° and roll diameter D = 300 mm. Find the thickness reduction (ΔH).<br>
+                            <strong>Solution:</strong><br>
+                            ΔH = D (1 - cos α) = 300 × (1 - cos 10°)<br>
+                            ΔH = 300 × (1 - 0.9848) = <strong>4.56 mm</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="qa-box">
-                <h4>س5: كيف تُنتج المواسير الطويلة بالسباكة دون استخدام دليك (Core)؟</h4>
-                <p>ج: عن طريق السباكة بالطرد المركزي ذات محور الدوران الأفقي، حيث تدفع قوة الطرد المركزي المعدن المنصهر نحو الجدار الداخلي للقالب الدوار تاركةً المركز مجوفاً بانتظام.</p>
-            </div>
-        </section>
+            <!-- القسم الخامس: الملخص -->
+            <section id="summary-section">
+                <h2 class="ar-content">5. الملخص النهائي الشامل (Final Summary)</h2>
+                <h2 class="en-content">5. Comprehensive Final Summary</h2>
 
-        <!-- القسم الثامن: الاختبار التفاعلي الشامل -->
-        <section id="interactive-exam" class="exam-section">
-            <h2>8. الاختبار التفاعلي الشامل (اختياري + صح وغلط + ترتيب)</h2>
-            <p>اختبر فهمك لجميع أجزاء المنهج (38 سؤالاً متنوعاً). أجب عن الأسئلة ثم اضغط على زر <strong>"تصحيح الاختبار وعرض النتيجة"</strong> بالأسفل للحصول على درجتك وشرح الإجابة الصحيحة لكل سؤال.</p>
+                <div class="ar-content">
+                    <div class="info-card" style="border-top-color: var(--accent); margin-bottom: 1.5rem;">
+                        <h4>🔩 أولاً: السباكة (Casting)</h4>
+                        <ul>
+                            <li><strong>تعريف:</strong> تشكيل المعادن في خطوة واحدة بصهر المعدن وصبه في قالب.</li>
+                            <li><strong>النموذج (Pattern/أورنيك):</strong> مصمت، يُصنع من خشب الصنوبر (≤30 قطعة)، الأخشاب الصلدة (~100 قالب)، أو معدن (إنتاج كمي).</li>
+                            <li><strong>صفات النموذج الست:</strong> سماح انكماش، سماح تشغيل، سلبية (Draft)، ركائز دليك، تدوير أركان، سطح انفصال.</li>
+                            <li><strong>الرمل الأخضر:</strong> 90% رمل + 8% طمي + 2% ماء ← الحديد الزهر. يُعاد تجهيزه بإضافة 30% رمل جديد.</li>
+                            <li><strong>الرمل الجاف:</strong> رمل + زيت/مولاس، يُجفف ساعتين عند 180–220°م ← الصلب (لا غازات).</li>
+                            <li><strong>الطرد المركزي:</strong> محور رأسي ← تروس؛ محور أفقي ← مواسير طويلة دون دليك.</li>
+                            <li><strong>أجزاء القالب:</strong> Flask(1)، Cavity(3)، Bottom Board(4)، Drag(5)، Core(6)، Parting Line(7)، Cope(8)، Riser(9)، Sprue(11).</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="border-top-color: var(--secondary); margin-bottom: 1.5rem;">
+                        <h4>🔨 ثانياً: البثق (Extrusion)</h4>
+                        <ul>
+                            <li><strong>تعريف:</strong> دفع كتلة معدنية عبر اسطمبة لإنتاج أجزاء طويلة بمقطع ثابت.</li>
+                            <li><strong>مباشر:</strong> المعدن يتحرك مع الكباس، احتكاك وقوة عالية، اسطمبة في نهاية الحاوية.</li>
+                            <li><strong>غير مباشر:</strong> المعدن يتحرك عكس الكباس، احتكاك أقل، اسطمبة في مقدمة الكباس المجوف.</li>
+                            <li><strong>بالصدم (Impact):</strong> على البارد، يتدفق المعدن لأعلى حول المكبس ← أنابيب معجون الأسنان وعلب المشروبات.</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="border-top-color: var(--info-border);">
+                        <h4>⚙️ ثالثاً: الدرفلة (Rolling)</h4>
+                        <ul>
+                            <li><strong>تعريف:</strong> تقليل السمك بين درفيلين متعاكسين، يزداد الطول.</li>
+                            <li><strong>المنتجات الأولية:</strong> Slabs ← ألواح وصفائح؛ Blooms ← قطاعات إنشائية وسكك حديدية؛ Billets ← قضبان وأسياخ وأسلاك.</li>
+                            <li><strong>الماكينات:</strong> ثنائية (عادية/عكوسة)، ثلاثية (تمرير ذهاباً وإياباً)، رباعية (درفيلا تشغيل + درفيلا إسناد)، عنقودية (للدرفلة على البارد).</li>
+                            <li><strong>القوانين:</strong> V₁H₁ = V₂H₂ ، ΔH = D(1 - cos α) ، %Reduction = [(H₁-H₂)/H₁]×100.</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <!-- خيارات اللغة -->
-            <div class="lang-controls">
-                <label><input type="radio" name="langMode" value="all-arabic" checked onchange="setLanguageMode(this.value)"> 🇸🇦 عربي فقط</label>
-                <label><input type="radio" name="langMode" value="all-english" onchange="setLanguageMode(this.value)"> 🇬🇧 English Only</label>
-                <label><input type="radio" name="langMode" value="q-en-a-ar" onchange="setLanguageMode(this.value)"> 🔄 Q English / A Arabic</label>
-                <label><input type="radio" name="langMode" value="q-ar-a-en" onchange="setLanguageMode(this.value)"> 🔄 Q Arabic / A English</label>
-            </div>
+                <div class="en-content">
+                    <div class="info-card" style="border-top-color: var(--accent); margin-bottom: 1.5rem;">
+                        <h4>🔩 First: Casting</h4>
+                        <ul>
+                            <li><strong>Definition:</strong> Forming metals in one step by melting and pouring into a mold.</li>
+                            <li><strong>Pattern:</strong> Solid; made of pine (≤30 pieces), hardwoods (~100 molds), or metal (mass production).</li>
+                            <li><strong>Six pattern characteristics:</strong> Shrinkage allowance, machining allowance, draft, core prints, filleted corners, parting surface.</li>
+                            <li><strong>Green sand:</strong> 90% sand + 8% clay + 2% water → cast iron. Reconditioned with 30% new sand.</li>
+                            <li><strong>Dry sand:</strong> Sand + oil/molasses, dried 2 hours at 180–220°C → steel (no gases).</li>
+                            <li><strong>Centrifugal:</strong> Vertical axis → gears; Horizontal axis → long pipes without core.</li>
+                            <li><strong>Mold parts:</strong> Flask(1), Cavity(3), Bottom Board(4), Drag(5), Core(6), Parting Line(7), Cope(8), Riser(9), Sprue(11).</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="border-top-color: var(--secondary); margin-bottom: 1.5rem;">
+                        <h4>🔨 Second: Extrusion</h4>
+                        <ul>
+                            <li><strong>Definition:</strong> Pushing a metal billet through a die to produce long parts with constant cross-section.</li>
+                            <li><strong>Direct:</strong> Metal moves with ram, high friction and force, die at container end.</li>
+                            <li><strong>Indirect:</strong> Metal moves opposite to ram, lower friction, die at front of hollow ram.</li>
+                            <li><strong>Impact:</strong> Cold, metal flows upward around punch → toothpaste tubes and beverage cans.</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="border-top-color: var(--info-border);">
+                        <h4>⚙️ Third: Rolling</h4>
+                        <ul>
+                            <li><strong>Definition:</strong> Thickness reduction between two opposite rolls, length increases.</li>
+                            <li><strong>Primary products:</strong> Slabs → plates and sheets; Blooms → structural shapes and rails; Billets → bars, rods, and wire.</li>
+                            <li><strong>Mills:</strong> Two-high (non-reversing/reversing), three-high (back-and-forth pass), four-high (work + backing rolls), cluster (cold rolling).</li>
+                            <li><strong>Laws:</strong> V₁H₁ = V₂H₂, ΔH = D(1 - cos α), %Reduction = [(H₁-H₂)/H₁]×100.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
 
-            <div class="exam-tabs">
-                <button class="tab-btn active" onclick="filterQuestions('all', this)">عرض كل الأسئلة (38)</button>
-                <button class="tab-btn" onclick="filterQuestions('mcq', this)">أولاً: اختيار من متعدد (20)</button>
-                <button class="tab-btn" onclick="filterQuestions('tf', this)">ثانياً: صح أم خطأ (15)</button>
-                <button class="tab-btn" onclick="filterQuestions('order', this)">ثالثاً: أسئلة الترتيب (3)</button>
-            </div>
+            <!-- القسم السادس: الخريطة الذهنية -->
+            <section id="mindmap-section">
+                <h2 class="ar-content">6. الخريطة الذهنية الشاملة (Mind Map)</h2>
+                <h2 class="en-content">6. Comprehensive Mind Map</h2>
 
-            <div id="quiz-container"></div>
+                <div class="mindmap-container">
+                    <div class="mindmap">
+                        <div class="mindmap-root ar-content">هندسة الإنتاج وعمليات التصنيع</div>
+                        <div class="mindmap-root en-content" style="direction:ltr;">Production Engineering & Manufacturing Processes</div>
+                        <div class="mindmap-branches">
+                            <div class="mindmap-branch">
+                                <div class="mindmap-node ar-content">السباكة</div>
+                                <div class="mindmap-node en-content">Casting</div>
+                                <div class="mindmap-leaf ar-content">النموذج (Pattern)</div>
+                                <div class="mindmap-leaf en-content">Pattern</div>
+                                <div class="mindmap-leaf ar-content">الرمل الأخضر / الجاف</div>
+                                <div class="mindmap-leaf en-content">Green / Dry Sand</div>
+                                <div class="mindmap-leaf ar-content">الطرد المركزي</div>
+                                <div class="mindmap-leaf en-content">Centrifugal Casting</div>
+                                <div class="mindmap-leaf ar-content">أجزاء القالب</div>
+                                <div class="mindmap-leaf en-content">Mold Parts</div>
+                            </div>
+                            <div class="mindmap-branch">
+                                <div class="mindmap-node ar-content">البثق</div>
+                                <div class="mindmap-node en-content">Extrusion</div>
+                                <div class="mindmap-leaf ar-content">مباشر / غير مباشر</div>
+                                <div class="mindmap-leaf en-content">Direct / Indirect</div>
+                                <div class="mindmap-leaf ar-content">بالصدم</div>
+                                <div class="mindmap-leaf en-content">Impact Extrusion</div>
+                                <div class="mindmap-leaf ar-content">تطبيقات الألومنيوم</div>
+                                <div class="mindmap-leaf en-content">Aluminum Applications</div>
+                            </div>
+                            <div class="mindmap-branch">
+                                <div class="mindmap-node ar-content">الدرفلة</div>
+                                <div class="mindmap-node en-content">Rolling</div>
+                                <div class="mindmap-leaf ar-content">المنتجات الأولية</div>
+                                <div class="mindmap-leaf en-content">Primary Products</div>
+                                <div class="mindmap-leaf ar-content">أنواع الماكينات</div>
+                                <div class="mindmap-leaf en-content">Mill Types</div>
+                                <div class="mindmap-leaf ar-content">قوانين الحساب</div>
+                                <div class="mindmap-leaf en-content">Calculation Laws</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="action-bar">
-                <button class="btn-submit" onclick="gradeExam()">تصحيح الاختبار وعرض النتيجة</button>
-                <button class="btn-reset" onclick="resetExam()">إعادة الاختبار من البداية</button>
-            </div>
+            <!-- القسم السابع: بنك الأسئلة -->
+            <section id="qa-bank">
+                <h2 class="ar-content">7. بنك الأسئلة والأجوبة النموذجية للمراجعة السريعة</h2>
+                <h2 class="en-content">7. Model Questions & Answers Bank for Quick Review</h2>
 
-            <div id="score-board">
-                <h3 id="score-text"></h3>
-                <p id="score-details"></p>
-            </div>
-        </section>
+                <div class="ar-content">
+                    <div class="qa-box">
+                        <h4>س1: لماذا لا يُستخدم الحديد الغفل / تماسيح الحديد (Pig Iron) مباشرة في التطبيقات الهندسية؟</h4>
+                        <p>ج: لأنه هش وضعيف لارتفاع نسبة الكربون فيه (حوالي 4%) واحتوائه على نسبة عالية من الشوائب كالكبريت والفسفور.</p>
+                    </div>
+                    <div class="qa-box">
+                        <h4>س2: ما هي الخواص الميكانيكية والتكنولوجية الثلاث الحاكمة لاختيار أسلوب التصنيع؟</h4>
+                        <p>ج: الانصهارية (Fusibility) للسباكة، اللدونة (Plasticity)، والممطولية (Ductility) للتشكيل اللدن كالدرفلة والبثق.</p>
+                    </div>
+                    <div class="qa-box">
+                        <h4>س3: لماذا يكون الاحتكاك أقل في البثق غير المباشر مقارنة بالبثق المباشر؟</h4>
+                        <p>ج: لعدم وجود حركة نسبية بين كتلة المعدن (Billet) وجدران الحاوية، حيث تكون نهاية الحاوية مغلقة بلوح غلق وتتحرك الاسطمبة المثبتة على الكباس المجوف نحو الكتلة.</p>
+                    </div>
+                    <div class="qa-box">
+                        <h4>س4: ما وظيفة درافيل الإسناد (Backing Rolls) في ماكينات الدرفلة الرباعية والعنقودية؟</h4>
+                        <p>ج: إسناد درافيل التشغيل ذات القطر الصغير ومنع انحنائها أو تقوسها تحت تأثير قوى الدرفلة العالية، خاصة في الدرفلة على البارد.</p>
+                    </div>
+                    <div class="qa-box">
+                        <h4>س5: كيف تُنتج المواسير الطويلة بالسباكة دون استخدام دليك (Core)؟</h4>
+                        <p>ج: عن طريق السباكة بالطرد المركزي ذات محور الدوران الأفقي، حيث تدفع قوة الطرد المركزي المعدن المنصهر نحو الجدار الداخلي للقالب الدوار تاركةً المركز مجوفاً بانتظام.</p>
+                    </div>
+                </div>
 
+                <div class="en-content">
+                    <div class="qa-box">
+                        <h4>Q1: Why is pig iron not used directly in engineering applications?</h4>
+                        <p>A: Because it is brittle and weak due to its high carbon content (about 4%) and high impurities such as sulfur and phosphorus.</p>
+                    </div>
+                    <div class="qa-box">
+                        <h4>Q2: What are the three mechanical and technological properties governing the selection of a manufacturing method?</h4>
+                        <p>A: Fusibility for casting, plasticity and ductility for plastic forming such as rolling and extrusion.</p>
+                    </div>
+                    <div class="qa-box">
+                        <h4>Q3: Why is friction lower in indirect extrusion compared to direct extrusion?</h4>
+                        <p>A: Due to no relative motion between the billet and container walls, as the container end is closed by a closure plate and the die fixed on the hollow ram moves toward the billet.</p>
+                    </div>
+                    <div class="qa-box">
+                        <h4>Q4: What is the function of backing rolls in four-high and cluster rolling mills?</h4>
+                        <p>A: To support the small-diameter work rolls and prevent their bending or deflection under high rolling forces, especially in cold rolling.</p>
+                    </div>
+                    <div class="qa-box">
+                        <h4>Q5: How are long pipes produced by casting without using a core?</h4>
+                        <p>A: By horizontal-axis centrifugal casting, where centrifugal force pushes the molten metal toward the inner wall of the rotating mold, leaving the center uniformly hollow.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- القسم الثامن: الاختبار -->
+            <section id="interactive-exam" class="exam-section">
+                <h2 class="ar-content">8. الاختبار التفاعلي الشامل (اختياري + صح وغلط + ترتيب)</h2>
+                <h2 class="en-content">8. Comprehensive Interactive Exam (MCQ + True/False + Ordering)</h2>
+                <p class="ar-content">اختبر فهمك لجميع أجزاء المنهج (38 سؤالاً متنوعاً). أجب عن الأسئلة ثم اضغط على زر <strong>"تصحيح الاختبار وعرض النتيجة"</strong> بالأسفل للحصول على درجتك وشرح الإجابة الصحيحة لكل سؤال.</p>
+                <p class="en-content">Test your understanding of all curriculum parts (38 diverse questions). Answer the questions then click <strong>"Grade Exam & Show Result"</strong> below to get your score and explanation of the correct answer for each question.</p>
+
+                <!-- خيارات اللغة -->
+                <div class="lang-controls">
+                    <label><input type="radio" name="langMode" value="all-arabic" checked onchange="setLanguageMode(this.value)"> 🇸🇦 عربي فقط</label>
+                    <label><input type="radio" name="langMode" value="all-english" onchange="setLanguageMode(this.value)"> 🇬🇧 English Only</label>
+                    <label><input type="radio" name="langMode" value="q-en-a-ar" onchange="setLanguageMode(this.value)"> 🔄 Q English / A Arabic</label>
+                    <label><input type="radio" name="langMode" value="q-ar-a-en" onchange="setLanguageMode(this.value)"> 🔄 Q Arabic / A English</label>
+                </div>
+
+                <div class="exam-tabs">
+                    <button class="tab-btn active" onclick="filterQuestions('all', this)">عرض كل الأسئلة (38)</button>
+                    <button class="tab-btn" onclick="filterQuestions('mcq', this)">أولاً: اختيار من متعدد (20)</button>
+                    <button class="tab-btn" onclick="filterQuestions('tf', this)">ثانياً: صح أم خطأ (15)</button>
+                    <button class="tab-btn" onclick="filterQuestions('order', this)">ثالثاً: أسئلة الترتيب (3)</button>
+                </div>
+
+                <div id="quiz-container"></div>
+
+                <div class="action-bar">
+                    <button class="btn-submit" onclick="gradeExam()">تصحيح الاختبار وعرض النتيجة</button>
+                    <button class="btn-reset" onclick="resetExam()">إعادة الاختبار من البداية</button>
+                </div>
+
+                <div id="score-board">
+                    <h3 id="score-text"></h3>
+                    <p id="score-details"></p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer>
+            <p>جميع الحقوق محفوظة &copy; 2026 - منصة المذاكرة التفاعلية لهندسة الإنتاج وتكنولوجيا التصنيع</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026 - منصة المذاكرة التفاعلية لهندسة الإنتاج وتكنولوجيا التصنيع</p>
-    </footer>
-
     <script>
+        // ===== القائمة الجانبية =====
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // إغلاق القائمة عند النقر على رابط
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 900) {
+                    document.getElementById('sidebar').classList.remove('open');
+                }
+                // تمييز الرابط النشط
+                document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ===== تبديل لغة الشرح =====
+        let isEnglishContent = false;
+
+        function toggleContentLanguage() {
+            isEnglishContent = !isEnglishContent;
+            if (isEnglishContent) {
+                document.body.classList.add('show-english');
+                document.getElementById('contentLangText').textContent = 'تحويل الشرح إلى العربية';
+                document.getElementById('contentLangIcon').textContent = '🌐';
+                document.getElementById('settingsLangBtn').textContent = '🌐 تحويل الشرح إلى العربية';
+                localStorage.setItem('contentLang', 'en');
+            } else {
+                document.body.classList.remove('show-english');
+                document.getElementById('contentLangText').textContent = 'تحويل الشرح إلى English';
+                document.getElementById('contentLangIcon').textContent = '🌐';
+                document.getElementById('settingsLangBtn').textContent = '🌐 تحويل الشرح إلى English';
+                localStorage.setItem('contentLang', 'ar');
+            }
+        }
+
         // ===== الإعدادات =====
         function toggleSettings() {
             document.getElementById('settingsPanel').classList.toggle('open');
@@ -1383,19 +1938,25 @@
             setFontSize(16);
             document.getElementById('fontSelect').value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
             document.getElementById('fontSizeRange').value = 16;
+            if (isEnglishContent) toggleContentLanguage();
+            localStorage.removeItem('contentLang');
         }
 
-        // تحميل الإعدادات المحفوظة
         function loadSettings() {
             const savedTheme = localStorage.getItem('selectedTheme') || 'light';
             const savedFont = localStorage.getItem('selectedFont') || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
             const savedSize = localStorage.getItem('selectedFontSize') || '16';
+            const savedLang = localStorage.getItem('contentLang') || 'ar';
 
             setTheme(savedTheme);
             setFont(savedFont);
             setFontSize(savedSize);
 
-            // ضبط عناصر واجهة الإعدادات
+            if (savedLang === 'en') {
+                isEnglishContent = false; // لتبديل صحيح
+                toggleContentLanguage();
+            }
+
             const fontSelect = document.getElementById('fontSelect');
             if (fontSelect) fontSelect.value = savedFont;
             const fontRange = document.getElementById('fontSizeRange');
@@ -1763,8 +2324,6 @@
         }
 
         function getText(qObj, field) {
-            // field: 'q', 'options', 'explanation', 'items'
-            const isArabicMode = currentLangMode === 'all-arabic';
             const isEnglishMode = currentLangMode === 'all-english';
             const isQEnAAr = currentLangMode === 'q-en-a-ar';
             const isQArAEn = currentLangMode === 'q-ar-a-en';
@@ -1789,7 +2348,6 @@
         }
 
         function getTFText(qObj, field) {
-            // field: 'q', 'explanation', 'trueLabel', 'falseLabel'
             const isEnglishMode = currentLangMode === 'all-english';
             const isQEnAAr = currentLangMode === 'q-en-a-ar';
             const isQArAEn = currentLangMode === 'q-ar-a-en';
@@ -1830,12 +2388,6 @@
             container.innerHTML = '';
             let qCounter = 1;
 
-            const isEnglishMode = currentLangMode === 'all-english';
-            const isQEnAAr = currentLangMode === 'q-en-a-ar';
-            const isQArAEn = currentLangMode === 'q-ar-a-en';
-            const isArabicMode = currentLangMode === 'all-arabic';
-
-            // 1. اختيار من متعدد
             mcqQuestions.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'quiz-card';
@@ -1863,7 +2415,6 @@
                 container.appendChild(card);
             });
 
-            // 2. صح أم خطأ
             tfQuestions.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'quiz-card';
@@ -1891,7 +2442,6 @@
                 container.appendChild(card);
             });
 
-            // 3. أسئلة الترتيب
             orderQuestions.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'quiz-card';
@@ -1937,7 +2487,6 @@
         function filterQuestions(type, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
             document.querySelectorAll('.quiz-card').forEach(card => {
                 if (type === 'all' || card.dataset.type === type) {
                     card.style.display = 'block';
@@ -1951,7 +2500,6 @@
             let score = 0;
             const total = mcqQuestions.length + tfQuestions.length + orderQuestions.length;
 
-            // تصحيح الاختياري
             mcqQuestions.forEach((item, index) => {
                 const selected = document.querySelector(`input[name="mcq-${index}"]:checked`);
                 const card = document.getElementById(`mcq-card-${index}`);
@@ -1974,7 +2522,6 @@
                 }
             });
 
-            // تصحيح صح أم خطأ
             tfQuestions.forEach((item, index) => {
                 const selected = document.querySelector(`input[name="tf-${index}"]:checked`);
                 const card = document.getElementById(`tf-card-${index}`);
@@ -1998,7 +2545,6 @@
                 }
             });
 
-            // تصحيح الترتيب
             orderQuestions.forEach((item, index) => {
                 const listItems = document.querySelectorAll(`#order-list-${index} .order-item`);
                 const card = document.getElementById(`order-card-${index}`);
@@ -2029,7 +2575,6 @@
                 }
             });
 
-            // إظهار لوحة النتيجة
             const percentage = Math.round((score / total) * 100);
             const scoreBoard = document.getElementById('score-board');
             const scoreText = document.getElementById('score-text');
@@ -2059,6 +2604,55 @@
             loadSettings();
             renderExam();
         });
+        // ===== إغلاق القائمة الجانبية والإعدادات عند النقر خارجها =====
+document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById('sidebar');
+    const settingsPanel = document.getElementById('settingsPanel');
+    const sidebarToggle = document.querySelector('.mobile-menu-btn');
+    const settingsToggle = document.querySelector('.settings-toggle');
+
+    // إغلاق القائمة الجانبية لو مفتوحة والضغطة براها
+    if (sidebar && sidebar.classList.contains('open')) {
+        if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+            sidebar.classList.remove('open');
+        }
+    }
+
+    // إغلاق الإعدادات لو مفتوحة والضغطة براها
+    if (settingsPanel && settingsPanel.classList.contains('open')) {
+        if (!settingsPanel.contains(event.target) && !settingsToggle.contains(event.target)) {
+            settingsPanel.classList.remove('open');
+        }
+    }
+});
+
+// ===== إغلاق القائمة والإعدادات عند السحب (Swipe) على الموبايل =====
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+}, false);
+
+document.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, false);
+
+function handleSwipe() {
+    const sidebar = document.getElementById('sidebar');
+    const settingsPanel = document.getElementById('settingsPanel');
+    
+    // لو السحب لليسار (Swipe Left) بمسافة أكبر من 50 بكسل
+    if (touchStartX - touchEndX > 50) {
+        if (sidebar && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+        }
+        if (settingsPanel && settingsPanel.classList.contains('open')) {
+            settingsPanel.classList.remove('open');
+        }
+    }
+}
     </script>
 </body>
 </html>
